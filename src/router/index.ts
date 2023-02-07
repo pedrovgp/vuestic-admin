@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: 'admin',
-    path: '/admin',
+    path: '/f/admin',
     component: AppLayout,
     children: [
       {
@@ -159,7 +159,7 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/auth',
+    path: '/f/auth',
     component: AuthLayout,
     children: [
       {
@@ -184,7 +184,7 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: '/404',
+    path: '/f/404',
     component: Page404Layout,
     children: [
       {

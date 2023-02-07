@@ -6,6 +6,9 @@ import VueI18nPlugin from '@intlify/vite-plugin-vue-i18n'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // build: { manifest: true },
+  // base: process.env.mode === 'production' ? '/static/' : '/',
+  // root: './src',
   plugins: [
     vue(),
     VueI18nPlugin({
