@@ -13,6 +13,9 @@
             {{ t(`user.${option.name}`) }}
           </router-link>
         </va-list-item>
+        <va-list-item class="pa-2">
+          <a href="/admin/logout" class="profile-dropdown__item"> Logout </a>
+        </va-list-item>
       </va-dropdown-content>
     </va-dropdown>
   </div>
@@ -32,14 +35,10 @@
     }>(),
     {
       options: () => [
-        {
-          name: 'profile',
-          redirectTo: '',
-        },
-        {
-          name: 'logout',
-          redirectTo: 'login',
-        },
+        // {
+        //   name: 'profile',
+        //   redirectTo: '',
+        // },
       ],
     },
   )
