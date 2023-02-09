@@ -9,7 +9,7 @@
           @click="isSidebarMinimized = !isSidebarMinimized"
         />
         <!-- <div class="app-navbar-center"> -->
-        <span class="va-icon-vuestic">TODO: search bar</span>
+        <span class="va-icon-vuestic">BREVE: busca de animais</span>
         <!-- </div> -->
       </div>
     </template>

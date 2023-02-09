@@ -1,5 +1,12 @@
 <template>
-  <div class="dashboard">
+  <div class="main_message">
+    <a
+      >Em breve aqui você poderá ver os dados da fazenda. Por enquanto, você pode ver os dados financeiros abaixo ou
+      <router-link :to="{ name: 'charts' }">clicando aqui</router-link>.
+    </a>
+  </div>
+  <div class="financial_charts"><Charts /></div>
+  <!-- <div class="dashboard">
     <dashboard-charts />
 
     <dashboard-info-block />
@@ -13,22 +20,23 @@
         <DashboardMap ref="dashboardMap" />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  // import { ref } from 'vue'
 
-  import DashboardCharts from './DashboardCharts.vue'
-  import DashboardInfoBlock from './DashboardInfoBlock.vue'
-  import DashboardTabs from './DashboardTabs.vue'
-  import DashboardMap from './DashboardMap.vue'
+  import Charts from '../statistics/charts/Charts.vue'
+  // import DashboardCharts from './DashboardCharts.vue'
+  // import DashboardInfoBlock from './DashboardInfoBlock.vue'
+  // import DashboardTabs from './DashboardTabs.vue'
+  // import DashboardMap from './DashboardMap.vue'
 
-  const dashboardMap = ref()
+  // const dashboardMap = ref()
 
-  function addAddressToMap({ city, country }: { city: { text: string }; country: string }) {
-    dashboardMap.value.addAddress({ city: city.text, country })
-  }
+  // function addAddressToMap({ city, country }: { city: { text: string }; country: string }) {
+  //   dashboardMap.value.addAddress({ city: city.text, country })
+  // }
 </script>
 
 <style lang="scss">
