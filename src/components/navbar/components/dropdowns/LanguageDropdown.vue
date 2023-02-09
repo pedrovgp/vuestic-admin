@@ -1,24 +1,27 @@
 <template>
-  <va-dropdown class="language-dropdown" fixed position="bottom" :offset="[13, 0]">
-    <template #anchor>
-      <va-icon :name="getFlagIcon(locale, 'large')" />
-    </template>
+  <div class="profile-dropdown-wrapper">
+    <va-dropdown class="language-dropdown" stick-to-edges placement="right" :offset="[13, 0]">
+      <template #anchor> <va-icon :name="getFlagIcon(locale, 'large')" /><a>+</a> </template>
 
-    <va-dropdown-content class="language-dropdown__content pl-4 pr-4 pt-2 pb-2">
-      <div
-        v-for="(option, id) in options"
-        :key="id"
-        class="language-dropdown__item row align--center pt-1 pb-1 mt-2 mb-2"
-        :class="{ active: option.code === locale }"
-        @click="locale = option.code"
-      >
-        <va-icon :name="getFlagIcon(option.code, 'small')" />
-        <span class="dropdown-item__text">
-          {{ t(`language.${option.name}`) }}
-        </span>
-      </div>
-    </va-dropdown-content>
-  </va-dropdown>
+      <va-dropdown-content class="language-dropdown__content pl-4 pr-4 pt-2 pb-2">
+        <div
+          v-for="(option, id) in options"
+          :key="id"
+          class="language-dropdown__item row align--center pt-1 pb-1 mt-2 mb-2"
+          :class="{ active: option.code === locale }"
+          @click="locale = option.code"
+        >
+          <va-icon :name="getFlagIcon(option.code, 'small')" />
+          <span class="dropdown-item__text">
+            {{ t(`language.${option.name}`) }}
+          </span>
+        </div>
+        <va-list-item class="pa-2">
+          <a href="/admin/logout" class="profile-dropdown__item"> Logout </a>
+        </va-list-item>
+      </va-dropdown-content>
+    </va-dropdown>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -33,16 +36,16 @@
     {
       options: () => [
         {
+          code: 'br',
+          name: 'brazilian_portuguese',
+        },
+        {
           code: 'gb',
           name: 'english',
         },
         {
           code: 'es',
           name: 'spanish',
-        },
-        {
-          code: 'br',
-          name: 'brazilian_portuguese',
         },
         {
           code: 'cn',

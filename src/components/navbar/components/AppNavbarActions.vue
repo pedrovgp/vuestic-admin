@@ -4,10 +4,10 @@
     <!-- <message-dropdown class="app-navbar-actions__item" /> -->
     <!-- <notification-dropdown class="app-navbar-actions__item" /> -->
     <!-- <settings-dropdown class="app-navbar-actions__item" /> -->
-    <!-- <language-dropdown class="app-navbar-actions__item" /> -->
-    <profile-dropdown class="app-navbar-actions__item app-navbar-actions__item--profile">
+    <language-dropdown class="app-navbar-actions__item" />
+    <!-- <profile-dropdown class="app-navbar-actions__item app-navbar-actions__item--profile">
       <span>{{ userName }}</span>
-    </profile-dropdown>
+    </profile-dropdown> -->
   </div>
 </template>
 
@@ -32,16 +32,6 @@
   defineEmits<{
     (e: 'update:isTopBar', isTopBar: boolean): void
   }>()
-
-  // const isTopBarProxy = computed({
-  //   get() {
-  //     return props.isTopBar
-  //   },
-  //
-  //   set(isTopBar: boolean) {
-  //     emit('update:isTopBar', isTopBar)
-  //   },
-  // })
 </script>
 
 <style lang="scss">
