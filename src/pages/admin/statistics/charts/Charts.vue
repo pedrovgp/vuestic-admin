@@ -1,4 +1,6 @@
 <template>
+  Caso os gráficos não apareceçam abaixo,
+  <a href="https://lookerstudio.google.com/s/n5z8A3OFwz0" target="_blank">clique aqui</a>.
   <iframe
     width="340"
     height="600"
