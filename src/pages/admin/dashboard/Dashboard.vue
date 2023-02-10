@@ -1,10 +1,6 @@
 <template>
   <div class="main_message">
-    <a
-      >Em breve aqui você poderá ver os dados da fazenda. Por enquanto, você pode ver os dados financeiros abaixo. Se
-      eles não estiverem aparecendo, <a href="https://lookerstudio.google.com/s/n5z8A3OFwz0" target="_blank"></a>clique
-      aqui</a
-    >.
+    <a>Em breve aqui você poderá ver os dados da fazenda. Por enquanto, você pode ver os dados financeiros abaixo. </a>
   </div>
   <div class="financial_charts"><Charts /></div>
   <!-- <div class="dashboard">
