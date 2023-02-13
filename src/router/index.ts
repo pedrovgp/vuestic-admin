@@ -46,6 +46,26 @@ const routes: Array<RouteRecordRaw> = [
         ],
       },
       {
+        name: 'animals',
+        path: 'animals',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'animalsList',
+            path: 'list',
+            component: () => import('../pages/admin/statistics/charts/Charts.vue'),
+            meta: {
+              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Charts',
+            },
+          },
+          {
+            name: 'animalsDetails',
+            path: 'details',
+            component: () => import('../pages/admin/animals/AnimalDetails.vue'),
+          },
+        ],
+      },
+      {
         name: 'forms',
         path: 'forms',
         component: RouteViewComponent,

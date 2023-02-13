@@ -11,6 +11,10 @@
     "termsOfUse": "Termos de uso.",
     "welcome": "Bem vindo!"
   },
+  "animals": {
+    "animalDetailsTitle": "Detalhes do Animal",
+    "tabs": {"overview": {"title": "Geral"}}
+  },
   "buttons": {
     "advanced": "Icones, Grupos, Dropdowns",
     "button": "BOTÃO",
@@ -141,6 +145,9 @@
   },
   "menu": {
     "auth": "Autorização",
+    "animals": "Animais",
+    "animalsList": "Todos",
+    "animalsDetails": "Detalhes",
     "buttons": "Botões",
     "charts": "Gráficos",
     "colorPickers": "Colhedores de Cor",

@@ -3,21 +3,21 @@
     <a>Em breve aqui você poderá ver os dados da fazenda. Por enquanto, você pode ver os dados financeiros abaixo. </a>
   </div>
   <div class="financial_charts"><Charts /></div>
-  <!-- <div class="dashboard">
-    <dashboard-charts />
+  <div class="dashboard">
+    <!-- <dashboard-charts /> -->
 
-    <dashboard-info-block />
+    <!-- <dashboard-info-block /> -->
 
     <div class="row row-equal">
       <div class="flex xs12 lg6">
-        <dashboard-tabs @submit="addAddressToMap" />
+        <animals-details :animal-id="1" />
       </div>
 
       <div class="flex xs12 lg6">
         <DashboardMap ref="dashboardMap" />
       </div>
     </div>
-  </div> -->
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -28,6 +28,7 @@
   // import DashboardInfoBlock from './DashboardInfoBlock.vue'
   // import DashboardTabs from './DashboardTabs.vue'
   // import DashboardMap from './DashboardMap.vue'
+  import AnimalsDetails from '../animals/AnimalDetails.vue'
 
   // const dashboardMap = ref()
 

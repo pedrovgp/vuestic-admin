@@ -73,15 +73,6 @@
 
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
-
-  const props = withDefaults(
-    defineProps<{
-      animalId: number
-    }>(),
-    {
-      animalId: 1,
-    },
-  )
 </script>
 
 <style lang="scss">

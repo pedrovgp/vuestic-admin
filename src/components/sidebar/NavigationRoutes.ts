@@ -36,6 +36,24 @@ export default {
         // },
       ],
     },
+    {
+      name: 'animals',
+      displayName: 'menu.animals',
+      meta: {
+        icon: 'vuestic-iconset-pets',
+      },
+      disabled: true,
+      children: [
+        {
+          name: 'animalsList',
+          displayName: 'menu.animalsList',
+        },
+        {
+          name: 'animalsDetails',
+          displayName: 'menu.animalsDetails',
+        },
+      ],
+    },
     // {
     //   name: 'forms',
     //   displayName: 'menu.forms',
