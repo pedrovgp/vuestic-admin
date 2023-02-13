@@ -13,7 +13,7 @@
   },
   "animals": {
     "animalDetailsTitle": "Detalhes do Animal",
-    "tabs": {"overview": {"title": "Geral"}}
+    "tabs": { "overview": { "title": "Geral" } }
   },
   "buttons": {
     "advanced": "Icones, Grupos, Dropdowns",
