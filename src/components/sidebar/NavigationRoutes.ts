@@ -40,7 +40,7 @@ export default {
       name: 'animals',
       displayName: 'menu.animals',
       meta: {
-        icon: 'vuestic-iconset-pets',
+        icon: 'vuestic-iconset-graph',
       },
       disabled: true,
       children: [
