@@ -7,7 +7,7 @@
     <va-card-content>
       <va-tabs v-model="activeTabName" grow>
         <template #tabs>
-          <va-tab name="OverviewTab" :animal-id="props.animalId">
+          <va-tab name="OverviewTab" :animal="animal">
             {{ t('animals.tabs.overview.title') }}
           </va-tab>
           <!-- <va-tab name="BillingAddressTab">
@@ -27,6 +27,7 @@
 <script setup lang="ts">
   import { defineAsyncComponent, ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import AnimalApi from '../../../services/fam/fam'
 
   const { t } = useI18n()
 
@@ -38,6 +39,8 @@
       animalId: 1,
     },
   )
+
+  const animal: any = AnimalApi.get(props.animalId)
 
   const tabs = {
     OverviewTab: defineAsyncComponent(() => import('./details-tabs/OverviewTab.vue')),
