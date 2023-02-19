@@ -19,6 +19,13 @@ export default {
       },
     },
     {
+      name: 'animals',
+      displayName: 'menu.animals',
+      meta: {
+        icon: 'vuestic-iconset-graph',
+      },
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {
@@ -34,24 +41,6 @@ export default {
         //   name: 'progress-bars',
         //   displayName: 'menu.progressBars',
         // },
-      ],
-    },
-    {
-      name: 'animals',
-      displayName: 'menu.animals',
-      meta: {
-        icon: 'vuestic-iconset-graph',
-      },
-      disabled: true,
-      children: [
-        {
-          name: 'animalsList',
-          displayName: 'menu.animalsList',
-        },
-        {
-          name: 'animalsDetails',
-          displayName: 'menu.animalsDetails',
-        },
       ],
     },
     // {

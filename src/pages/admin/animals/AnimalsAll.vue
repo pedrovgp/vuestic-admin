@@ -1,24 +1,36 @@
 ]
 <template>
-  <suspense>
-    <template #default>
-      {{ animals }}
-    </template>
-    <template #fallback>
-      <p>Loading...</p>
-    </template>
-  </suspense>
+  <animal-details v-if="animalId" :animal-id="animalId" />
+  <div v-else>
+    <suspense>
+      <template #default>
+        <animals-table :items="animals" />
+      </template>
+      <template #fallback>
+        <p>Loading...</p>
+      </template>
+    </suspense>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, watchEffect } from 'vue'
+  import { ref, onMounted } from 'vue'
   import AnimalApi from '../../../services/fam/fam'
+  import AnimalDetails from './AnimalDetails.vue'
+  import AnimalsTable from './AnimalsTable.vue'
 
-  const animals: any = ref(null)
+  const animals: any = ref([])
 
-  watchEffect(async () => {
-    // this effect will run immediately and then
-    // re-run whenever currentBranch.value changes
+  const props = withDefaults(
+    defineProps<{
+      animalId?: number
+    }>(),
+    {
+      animalId: 0,
+    },
+  )
+
+  onMounted(async () => {
     animals.value = await (await AnimalApi.getAll()).data
   })
 </script>

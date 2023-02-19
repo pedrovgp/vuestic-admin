@@ -7,16 +7,6 @@
     <!-- <dashboard-charts /> -->
 
     <!-- <dashboard-info-block /> -->
-
-    <div class="row row-equal">
-      <div class="flex xs12 lg6">
-        <animals-details :animal-id="1" />
-      </div>
-
-      <div class="flex xs12 lg6">
-        <DashboardMap ref="dashboardMap" />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -28,7 +18,6 @@
   // import DashboardInfoBlock from './DashboardInfoBlock.vue'
   // import DashboardTabs from './DashboardTabs.vue'
   // import DashboardMap from './DashboardMap.vue'
-  import AnimalsDetails from '../animals/AnimalDetails.vue'
 
   // const dashboardMap = ref()
 

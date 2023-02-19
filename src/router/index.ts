@@ -14,13 +14,23 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: 'admin',
-    path: '/f/admin',
+    path: '/f',
     component: AppLayout,
     children: [
       {
         name: 'dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
+      },
+      {
+        name: 'animals',
+        path: 'animals',
+        component: () => import('../pages/admin/animals/AnimalsAll.vue'),
+      },
+      {
+        name: 'animalsDetails',
+        path: 'animals/:animalId(\\d+)',
+        component: () => import('../pages/admin/animals/AnimalDetails.vue'),
       },
       {
         name: 'statistics',
@@ -42,23 +52,6 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
             },
-          },
-        ],
-      },
-      {
-        name: 'animals',
-        path: 'animals',
-        component: RouteViewComponent,
-        children: [
-          {
-            name: 'animalsList',
-            path: 'list',
-            component: () => import('../pages/admin/animals/AnimalsAll.vue'),
-          },
-          {
-            name: 'animalsDetails',
-            path: 'details',
-            component: () => import('../pages/admin/animals/AnimalDetails.vue'),
           },
         ],
       },

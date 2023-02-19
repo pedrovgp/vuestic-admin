@@ -6,6 +6,9 @@ import { createGtm } from '@gtm-support/vue-gtm'
 import stores from './stores'
 import router from './router'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
+import Vue3EasyDataTable from 'vue3-easy-data-table'
+import 'vue3-easy-data-table/dist/style.css'
+
 import App from './App.vue'
 
 const app = createApp(App)
@@ -13,6 +16,7 @@ const app = createApp(App)
 app.use(stores)
 app.use(router)
 app.use(i18n)
+app.component('EasyDataTable', Vue3EasyDataTable)
 app.use(createVuestic({ config: vuesticGlobalConfig }))
 
 if (import.meta.env.VITE_APP_GTM_ENABLED) {
