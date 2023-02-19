@@ -6,11 +6,26 @@
       <va-chip>alerted message</va-chip>
     </span>
   </va-alert>
-  <EasyDataTable :headers="headers" :items="props.items" :sort-by="'NOME'" :sort-type="'desc'" />
+  <row>
+    <va-input v-model="input" class="flex flex-col mb-2 md6 xs12" placeholder="Escreva aqui para filtrar" />
+  </row>
+  <va-data-table
+    v-model:sort-by="sortBy"
+    v-model:sorting-order="sortingOrder"
+    :items="props.items"
+    :columns="columns"
+    :filter="debouncedInput"
+    :hoverable="true"
+    :striped="true"
+    :wrapper-size="500"
+    virtual-scroller
+    sticky-header
+  />
 </template>
 
 <script setup lang="ts">
-  import type { Header } from 'vue3-easy-data-table'
+  import { ref, watch } from 'vue'
+  import debounce from 'lodash.debounce'
 
   export interface Props {
     items: Array<any>
@@ -20,10 +35,29 @@
     items: () => [],
   })
 
-  const headers: Header[] = [
-    { text: 'NOME', value: 'nome' },
-    { text: 'SEXO', value: 'sexo' },
-    { text: 'IDMAE', value: 'idmae' },
-    { text: 'IDPAI', value: 'idpai' },
+  const input = ref('')
+  const debouncedInput = ref('')
+
+  watch(
+    input,
+    debounce(() => {
+      debouncedInput.value = input.value
+    }, 500),
+  )
+
+  const columns = [
+    { key: 'nome', name: 'NOME', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'sexo', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'idpai', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'idmae', sortable: true, sortingOptions: ['desc', 'asc'] },
   ]
+
+  const sortBy = ref('nome')
+  const sortingOrder = ref('desc')
+
+  // TODO add a custom filtering function to filter only by nome and brinco
+
+  // TODO Add advanced options to define which columns to filter by
+
+  // TODO pre-work items so that we have links working
 </script>
