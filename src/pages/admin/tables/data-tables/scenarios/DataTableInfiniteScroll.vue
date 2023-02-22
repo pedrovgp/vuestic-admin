@@ -1,18 +1,19 @@
-<!--<template>-->
-<!--  <va-card :title="t('tables.infiniteScroll')">-->
-<!--    <div ref="scrollable" class="data-table-infinite-scroll&#45;&#45;container" @scroll="onScroll">-->
-<!--      <va-data-table :fields="fields" :data="users" api-mode no-pagination>-->
-<!--        <template #marker="props">-->
-<!--          <va-icon name="fa fa-circle" :color="props.rowData.color" size="8px" />-->
-<!--        </template>-->
-<!--      </va-data-table>-->
+<template>
+  <p>Placeholder</p>
+  <!--  <va-card :title="t('tables.infiniteScroll')">-->
+  <!--    <div ref="scrollable" class="data-table-infinite-scroll&#45;&#45;container" @scroll="onScroll">-->
+  <!--      <va-data-table :fields="fields" :data="users" api-mode no-pagination>-->
+  <!--        <template #marker="props">-->
+  <!--          <va-icon name="fa fa-circle" :color="props.rowData.color" size="8px" />-->
+  <!--        </template>-->
+  <!--      </va-data-table>-->
 
-<!--      <div class="justify-center ma-3">-->
-<!--        <spring-spinner v-if="loading" :animation-duration="2000" :size="60" :color="theme.variables.primary" />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </va-card>-->
-<!--</template>-->
+  <!--      <div class="justify-center ma-3">-->
+  <!--        <spring-spinner v-if="loading" :animation-duration="2000" :size="60" :color="theme.variables.primary" />-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </va-card>-->
+</template>
 
 <!--<script>-->
 <!--  // import { SpringSpinner } from 'epic-spinners'-->
