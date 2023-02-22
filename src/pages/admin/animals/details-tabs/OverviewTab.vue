@@ -3,7 +3,7 @@
     <div class="row">
       <div class="flex sm12 md6">
         <div class="title mb-3" :style="computedStylesTitle">Principal</div>
-        <va-input v-model="props.animal.nome" :label="'Nome'" />
+        <va-input v-model="animal.nome" :label="'Nome'" />
         <va-input v-model="form.email" :label="'Mãe'" />
         <va-input v-model="form.address" :label="'Nascimento'" />
         <va-input v-model="form.address" :label="'Brinco'" />
@@ -55,6 +55,8 @@
       animal: null,
     },
   )
+
+  const animal = ref(props.animal)
 
   const emit = defineEmits<{
     (e: 'submit', data: typeof form): void
