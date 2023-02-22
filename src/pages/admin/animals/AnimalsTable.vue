@@ -3,7 +3,9 @@
   <va-alert class="mt-3" color="info" outline>
     <span>
       Mostrando apenas animais
-      <va-chip>vivos na estância Suzana</va-chip>
+      <va-chip>vivos na estância Suzana</va-chip>.
+      <p v-if="computedItems.length ? true : false">{{ computedItems.length }} no total.</p>
+      <p v-else>Carregando...</p>
     </span>
   </va-alert>
   <row>
