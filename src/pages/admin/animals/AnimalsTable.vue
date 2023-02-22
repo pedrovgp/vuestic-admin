@@ -25,17 +25,17 @@
     sticky-header
   >
     <template #cell(nome)="{ value }"
-      ><va-chip :to="splitParentValueStr(value)[0]" append size="small">{{
+      ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
       }}</va-chip></template
     >
     <template #cell(idpai)="{ value }"
-      ><va-chip :to="splitParentValueStr(value)[0]" append size="small">{{
+      ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
       }}</va-chip></template
     >
     <template #cell(idmae)="{ value }"
-      ><va-chip :to="splitParentValueStr(value)[0]" append size="small">{{
+      ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
       }}</va-chip></template
     >
