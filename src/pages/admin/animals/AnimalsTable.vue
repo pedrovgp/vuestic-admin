@@ -30,12 +30,12 @@
       }}</va-chip></template
     >
     <template #cell(idpai)="{ value }"
-      ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
+      ><va-chip v-if="splitParentValueStr(value)[0]" :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
       }}</va-chip></template
     >
     <template #cell(idmae)="{ value }"
-      ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
+      ><va-chip v-if="splitParentValueStr(value)[0]" :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
       }}</va-chip></template
     >
@@ -68,8 +68,11 @@
     { key: 'brinco', sortable: true, sortingOptions: ['desc', 'asc'], fixed: 'left' },
     { key: 'nome', sortable: true, sortingOptions: ['desc', 'asc'] },
     { key: 'sexo', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'idmae', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'idpai', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'idmae', label: 'mãe', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'idpai', label: 'pai', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'datanascimento', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'idade', label: 'idade (meses)', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'origem', sortable: true, sortingOptions: ['desc', 'asc'] },
   ]
 
   const sortBy = ref('nome')
@@ -95,6 +98,7 @@
   const computedItems = computed(() => {
     return props.items.map((item) => {
       return {
+        ...item,
         brinco: item.brinco,
         nome: getAnimalValueStr(item),
         sexo: item.sexo,
