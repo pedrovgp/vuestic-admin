@@ -39,6 +39,9 @@
         splitParentValueStr(value)[1]
       }}</va-chip></template
     >
+    <template #cell(lact_is_open)="{ value }"
+      ><va-badge :text="value == 'true' ? 'SIM' : 'NÃO'" :color="value == 'true' ? 'SUCCESS' : 'WARNING'"
+    /></template>
   </va-data-table>
 </template>
 
@@ -70,8 +73,17 @@
     { key: 'sexo', sortable: true, sortingOptions: ['desc', 'asc'] },
     { key: 'idmae', label: 'mãe', sortable: true, sortingOptions: ['desc', 'asc'] },
     { key: 'idpai', label: 'pai', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'datanascimento', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'datanascimento', sortable: true, sortingOptions: ['desc', 'asc'], label: 'nascimento' },
     { key: 'idade', label: 'idade (meses)', sortable: true, sortingOptions: ['desc', 'asc'] },
+    { key: 'obs', sortable: true, sortingOptions: ['desc', 'asc'], label: 'observação temporária' },
+    { key: 'autoname', sortable: true, sortingOptions: ['desc', 'asc'], label: 'nome auto' },
+    { key: 'birthorder', sortable: true, sortingOptions: ['desc', 'asc'], label: 'ordem de nasc.' },
+    { key: 'lact_is_open', sortable: true, sortingOptions: ['desc', 'asc'], label: 'lact. aberta' },
+    { key: 'lact_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'condição' },
+    { key: 'categoria', sortable: true, sortingOptions: ['desc', 'asc'], label: 'categoria' },
+    { key: 'pregnancy_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'prenhez' },
+    { key: 'last_birth_date', sortable: true, sortingOptions: ['desc', 'asc'], label: 'último parto' },
+    { key: 'iep', sortable: true, sortingOptions: ['desc', 'asc'], label: 'iep' },
     { key: 'origem', sortable: true, sortingOptions: ['desc', 'asc'] },
   ]
 
