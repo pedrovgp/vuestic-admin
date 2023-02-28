@@ -24,6 +24,7 @@
     virtual-scroller
     sticky-header
   >
+    <!-- :virtual-track-by="'id'" -->
     <template #cell(nome)="{ value }"
       ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
@@ -79,7 +80,7 @@
     { key: 'autoname', sortable: true, sortingOptions: ['desc', 'asc'], label: 'nome auto' },
     { key: 'birthorder', sortable: true, sortingOptions: ['desc', 'asc'], label: 'ordem de nasc.' },
     { key: 'lact_is_open', sortable: true, sortingOptions: ['desc', 'asc'], label: 'lact. aberta' },
-    { key: 'lact_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'condição' },
+    // { key: 'lact_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'condição' },
     { key: 'categoria', sortable: true, sortingOptions: ['desc', 'asc'], label: 'categoria' },
     { key: 'pregnancy_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'prenhez' },
     { key: 'last_birth_date', sortable: true, sortingOptions: ['desc', 'asc'], label: 'último parto' },
