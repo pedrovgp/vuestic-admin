@@ -133,9 +133,6 @@
     { field: 'origem', sortingOrder: ['asc', 'desc'], headerName: 'Origem' },
   ])
 
-  const sortBy = ref('nome')
-  const sortingOrder = ref('desc')
-
   // TODO add a custom filtering function to filter only by nome and brinco
 
   // TODO Add advanced options to define which columns to filter by
@@ -145,12 +142,6 @@
     if (!item) return ''
     const brincoStr = item.brinco ? ` - Br. ${item.brinco}` : ''
     return `${item.id}|${item.nome}${brincoStr}`
-  }
-  function getAnimalValueStr(params: any) {
-    return `${params.data.nome}|${params.data.id}|`
-  }
-  function splitParentValueStr(txt: string) {
-    return txt.split('|')
   }
   const computedItems = computed(() => {
     return props.items.map((item) => {

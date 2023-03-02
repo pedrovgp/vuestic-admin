@@ -29,7 +29,7 @@
 
   const animals: any = ref([])
 
-  const props = withDefaults(
+  withDefaults(
     defineProps<{
       animalId?: number
     }>(),

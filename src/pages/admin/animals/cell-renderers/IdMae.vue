@@ -11,7 +11,7 @@
     params: any
   }
 
-  const props = withDefaults(defineProps<Props>(), {
+  withDefaults(defineProps<Props>(), {
     params: () => 'Erro ao carregar nome',
   })
 </script>
