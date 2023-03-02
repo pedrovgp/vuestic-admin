@@ -21,20 +21,6 @@
     @grid-ready="onGridReady"
     @virtual-columns-changed="onColumnsChanged"
   >
-    <!-- 
-    <template #cell(idpai)="{ value }"
-      ><va-chip v-if="splitParentValueStr(value)[0]" :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
-        splitParentValueStr(value)[1]
-      }}</va-chip></template
-    >
-    <template #cell(idmae)="{ value }"
-      ><va-chip v-if="splitParentValueStr(value)[0]" :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
-        splitParentValueStr(value)[1]
-      }}</va-chip></template
-    >
-    <template #cell(lact_is_open)="{ value }"
-      ><va-badge :text="value == 'true' ? 'SIM' : 'NÃO'" :color="value == 'true' ? 'SUCCESS' : 'WARNING'"
-    /></template> -->
   </ag-grid-vue>
 </template>
 
@@ -46,12 +32,11 @@
 
 <script setup lang="ts">
   import { AgGridVue } from 'ag-grid-vue3' // the AG Grid Vue Component
-  import { ref, watch, computed, onMounted } from 'vue'
+  import { ref, watch, onMounted } from 'vue'
   import AnimalApi from '../../../services/fam/fam'
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
-  import IdMae from './cell-renderers/IdMae.vue'
 
   const items: any = ref([])
 
