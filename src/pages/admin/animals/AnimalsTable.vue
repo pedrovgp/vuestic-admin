@@ -11,25 +11,17 @@
   <row>
     <va-input v-model="input" class="flex flex-col mb-2 md6 xs12" placeholder="Escreva aqui para filtrar" />
   </row>
-  <va-data-table
-    v-model:sort-by="sortBy"
-    v-model:sorting-order="sortingOrder"
-    :items="computedItems"
-    :columns="columns"
-    :filter="debouncedInput"
-    :hoverable="true"
-    :loading="computedItems.length ? false : true"
-    :striped="true"
-    :wrapper-size="500"
-    virtual-scroller
-    sticky-header
+  <ag-grid-vue
+    class="ag-theme-alpine"
+    style="height: 500px"
+    :column-defs="columns"
+    :row-data="computedItems"
+    :default-col-def="defaultColDef"
+    animate-rows="true"
+    @grid-ready="onGridReady"
+    @virtual-columns-changed="onColumnsChanged"
   >
-    <!-- :virtual-track-by="'id'" -->
-    <template #cell(nome)="{ value }"
-      ><va-chip :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
-        splitParentValueStr(value)[1]
-      }}</va-chip></template
-    >
+    <!-- 
     <template #cell(idpai)="{ value }"
       ><va-chip v-if="splitParentValueStr(value)[0]" :to="'animals/' + splitParentValueStr(value)[0]" size="small">{{
         splitParentValueStr(value)[1]
@@ -42,13 +34,15 @@
     >
     <template #cell(lact_is_open)="{ value }"
       ><va-badge :text="value == 'true' ? 'SIM' : 'NÃO'" :color="value == 'true' ? 'SUCCESS' : 'WARNING'"
-    /></template>
-  </va-data-table>
+    /></template> -->
+  </ag-grid-vue>
 </template>
 
 <script setup lang="ts">
+  import { AgGridVue } from 'ag-grid-vue3' // the AG Grid Vue Component
   import { ref, watch, computed } from 'vue'
   import debounce from 'lodash.debounce'
+  import Nome from './cell-renderers/Nome.vue'
 
   export interface Props {
     items: Array<any>
@@ -68,25 +62,67 @@
     }, 500),
   )
 
-  const columns = [
-    { key: 'brinco', sortable: true, sortingOptions: ['desc', 'asc'], fixed: 'left' },
-    { key: 'nome', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'sexo', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'idmae', label: 'mãe', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'idpai', label: 'pai', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'datanascimento', sortable: true, sortingOptions: ['desc', 'asc'], label: 'nascimento' },
-    { key: 'idade', label: 'idade (meses)', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'obs', sortable: true, sortingOptions: ['desc', 'asc'], label: 'observação temporária' },
-    { key: 'autoname', sortable: true, sortingOptions: ['desc', 'asc'], label: 'nome auto' },
-    { key: 'birthorder', sortable: true, sortingOptions: ['desc', 'asc'], label: 'ordem de nasc.' },
-    { key: 'lact_is_open', sortable: true, sortingOptions: ['desc', 'asc'], label: 'lact. aberta' },
-    // { key: 'lact_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'condição' },
-    { key: 'categoria', sortable: true, sortingOptions: ['desc', 'asc'], label: 'categoria' },
-    { key: 'pregnancy_condition', sortable: true, sortingOptions: ['desc', 'asc'], label: 'prenhez' },
-    { key: 'last_birth_date', sortable: true, sortingOptions: ['desc', 'asc'], label: 'último parto' },
-    { key: 'iep', sortable: true, sortingOptions: ['desc', 'asc'], label: 'iep' },
-    { key: 'origem', sortable: true, sortingOptions: ['desc', 'asc'] },
-  ]
+  // DefaultColDef sets props common to all Columns
+  const defaultColDef = {
+    sortable: true,
+    minWidth: 65,
+    // maxWidth: 200,
+    // filter: true,
+    // flex: 1,
+    resizable: true,
+  }
+
+  // in onGridReady, store the api for later use
+  // Obtain API from grid's onGridReady event
+  const gridApi = ref(null) // Optional - for accessing Grid's API
+  const columnApi = ref(null) // Optional - for accessing Grid's API
+  function onGridReady(params: any) {
+    gridApi.value = params.api
+    columnApi.value = params.columnApi
+  }
+
+  function onColumnsChanged(params: any) {
+    params.columnApi.autoSizeAllColumns()
+  }
+
+  const columns = ref([
+    {
+      field: 'nome',
+      sort: true,
+      sortingOrder: ['asc', 'desc'],
+      pinned: 'left',
+      headerName: 'Nome',
+      minWidth: 160,
+      maxWidth: 160,
+      width: 160,
+      suppressSizeToFit: true,
+      // valueGetter: getAnimalValueStr,
+      cellRenderer: Nome,
+    },
+    {
+      field: 'brinco',
+      sortingOrder: ['asc', 'desc'],
+      headerName: 'Br.',
+      minWidth: 60,
+      width: 60,
+      suppressSizeToFit: true,
+    },
+    { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo' },
+    { field: 'idmae', headerName: 'Mãe', sortingOrder: ['asc', 'desc'] },
+    { field: 'idpai', headerName: 'Pai', sortingOrder: ['asc', 'desc'] },
+    { field: 'datanascimento', sortingOrder: ['asc', 'desc'], headerName: 'Nascimento' },
+    { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
+    { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária' },
+    { field: 'autoname', sortingOrder: ['asc', 'desc'], headerName: 'Nome auto' },
+    { field: 'birthorder', sortingOrder: ['asc', 'desc'], headerName: 'Ordem de nasc.' },
+    { field: 'lact_is_open', sortingOrder: ['asc', 'desc'], headerName: 'Lact. aberta' },
+    //fieldkey: 'lact_condition', sortingOrder: ['asc', 'desc'], headerName: 'condição' },
+    { field: 'categoria', sortingOrder: ['asc', 'desc'], headerName: 'Categoria' },
+    { field: 'pregnancy_condition', sortingOrder: ['asc', 'desc'], headerName: 'Prenhez' },
+    { field: 'last_birth_date', sortingOrder: ['asc', 'desc'], headerName: 'Último parto' },
+    { field: 'iep', sortingOrder: ['asc', 'desc'], headerName: 'IEP' },
+    { field: 'origem', sortingOrder: ['asc', 'desc'], headerName: 'Origem' },
+  ])
 
   const sortBy = ref('nome')
   const sortingOrder = ref('desc')
@@ -101,9 +137,8 @@
     const brincoStr = item.brinco ? ` - Br. ${item.brinco}` : ''
     return `${item.id}|${item.nome}${brincoStr}`
   }
-  function getAnimalValueStr(item: any) {
-    if (!item) return ''
-    return `${item.id}|${item.nome}`
+  function getAnimalValueStr(params: any) {
+    return `${params.data.nome}|${params.data.id}|`
   }
   function splitParentValueStr(txt: string) {
     return txt.split('|')
@@ -113,7 +148,7 @@
       return {
         ...item,
         brinco: item.brinco,
-        nome: getAnimalValueStr(item),
+        nome: item.nome,
         sexo: item.sexo,
         idmae: getParentValueStr(item.idmae),
         idpai: getParentValueStr(item.idpai),
@@ -121,3 +156,7 @@
     })
   })
 </script>
+
+<style lang="scss">
+  @import '@vuestic/ag-grid-theme';
+</style>
