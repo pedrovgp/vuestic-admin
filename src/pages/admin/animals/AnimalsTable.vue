@@ -43,6 +43,7 @@
   import { ref, watch, computed } from 'vue'
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
+  import LactOpen from './cell-renderers/LactOpen.vue'
 
   export interface Props {
     items: Array<any>
@@ -96,7 +97,6 @@
       maxWidth: 160,
       width: 160,
       suppressSizeToFit: true,
-      // valueGetter: getAnimalValueStr,
       cellRenderer: Nome,
     },
     {
@@ -115,7 +115,7 @@
     { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária' },
     { field: 'autoname', sortingOrder: ['asc', 'desc'], headerName: 'Nome auto' },
     { field: 'birthorder', sortingOrder: ['asc', 'desc'], headerName: 'Ordem de nasc.' },
-    { field: 'lact_is_open', sortingOrder: ['asc', 'desc'], headerName: 'Lact. aberta' },
+    { field: 'lact_is_open', sortingOrder: ['asc', 'desc'], headerName: 'Lact. aberta', cellRenderer: LactOpen },
     //fieldkey: 'lact_condition', sortingOrder: ['asc', 'desc'], headerName: 'condição' },
     { field: 'categoria', sortingOrder: ['asc', 'desc'], headerName: 'Categoria' },
     { field: 'pregnancy_condition', sortingOrder: ['asc', 'desc'], headerName: 'Prenhez' },
