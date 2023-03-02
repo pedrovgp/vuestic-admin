@@ -13,6 +13,14 @@
   </div>
 </template>
 
+<script lang="ts">
+  export default {
+    name: 'AnimalsAll',
+    inheritAttrs: false,
+    customOptions: {},
+  }
+</script>
+
 <script setup lang="ts">
   import { ref, onMounted } from 'vue'
   import AnimalApi from '../../../services/fam/fam'

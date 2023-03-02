@@ -38,12 +38,21 @@
   </ag-grid-vue>
 </template>
 
+<script lang="ts">
+  export default {
+    name: 'AnimalsTable',
+    inheritAttrs: false,
+    customOptions: {},
+  }
+</script>
+
 <script setup lang="ts">
   import { AgGridVue } from 'ag-grid-vue3' // the AG Grid Vue Component
   import { ref, watch, computed } from 'vue'
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
+  import IdMae from './cell-renderers/IdMae.vue'
 
   export interface Props {
     items: Array<any>
@@ -108,7 +117,7 @@
       suppressSizeToFit: true,
     },
     { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo' },
-    { field: 'idmae', headerName: 'Mãe', sortingOrder: ['asc', 'desc'] },
+    { field: 'idmae', headerName: 'Mãe', sortingOrder: ['asc', 'desc'], cellRenderer: IdMae },
     { field: 'idpai', headerName: 'Pai', sortingOrder: ['asc', 'desc'] },
     { field: 'datanascimento', sortingOrder: ['asc', 'desc'], headerName: 'Nascimento' },
     { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
@@ -150,7 +159,6 @@
         brinco: item.brinco,
         nome: item.nome,
         sexo: item.sexo,
-        idmae: getParentValueStr(item.idmae),
         idpai: getParentValueStr(item.idpai),
       }
     })
