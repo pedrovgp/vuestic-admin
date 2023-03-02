@@ -1,8 +1,12 @@
 <template>
-  <div class="animal-cell-div">
-    <va-chip :to="'animals/' + params.data.id" size="small">{{ params.data.nome }}</va-chip>
-  </div>
+  <va-chip class="nome-va-chip" square :to="'animals/' + params.data.id" size="medium">{{ params.data.nome }}</va-chip>
 </template>
+
+<script lang="ts">
+  export default {
+    name: 'Nome',
+  }
+</script>
 
 <script setup lang="ts">
   export interface Props {
@@ -14,10 +18,9 @@
   })
 </script>
 
-<style>
-  .animal-cell-div {
-    width: 80px;
-    word-wrap: break-word;
-    word-break: break-all;
+<style lang="scss">
+  .nome-va-chip {
+    --va-chip-font-size: 0.8rem;
+    --va-chip-content-padding: 1px;
   }
 </style>

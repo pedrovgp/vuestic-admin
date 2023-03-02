@@ -7,6 +7,12 @@
   </div>
 </template>
 
+<script lang="ts">
+  export default {
+    name: 'LactOpen',
+  }
+</script>
+
 <script setup lang="ts">
   export interface Props {
     params: any

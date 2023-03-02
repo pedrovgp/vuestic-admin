@@ -41,8 +41,6 @@
 <script lang="ts">
   export default {
     name: 'AnimalsTable',
-    inheritAttrs: false,
-    customOptions: {},
   }
 </script>
 
@@ -102,11 +100,13 @@
       sortingOrder: ['asc', 'desc'],
       pinned: 'left',
       headerName: 'Nome',
-      minWidth: 160,
-      maxWidth: 160,
-      width: 160,
+      minWidth: 120,
+      maxWidth: 200,
+      width: 120,
       suppressSizeToFit: true,
       cellRenderer: Nome,
+      wrapText: true,
+      autoHeight: true,
     },
     {
       field: 'brinco',
@@ -158,4 +158,7 @@
 
 <style lang="scss">
   @import '@vuestic/ag-grid-theme';
+  .ag-cell {
+    --ag-cell-horizontal-padding: 5px;
+  }
 </style>
