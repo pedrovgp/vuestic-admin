@@ -4,7 +4,7 @@
     <span>
       Mostrando apenas animais
       <va-chip>vivos na estância Suzana</va-chip>.
-      <p v-if="computedItems.length ? true : false">{{ computedItems.length }} no total.</p>
+      <p v-if="items.length ? true : false">{{ items.length }} no total.</p>
       <p v-else>Carregando...</p>
     </span>
   </va-alert>
@@ -15,7 +15,7 @@
     class="ag-theme-alpine"
     style="height: 500px"
     :column-defs="columns"
-    :row-data="computedItems"
+    :row-data="items"
     :default-col-def="defaultColDef"
     animate-rows="true"
     @grid-ready="onGridReady"
@@ -46,18 +46,17 @@
 
 <script setup lang="ts">
   import { AgGridVue } from 'ag-grid-vue3' // the AG Grid Vue Component
-  import { ref, watch, computed } from 'vue'
+  import { ref, watch, computed, onMounted } from 'vue'
+  import AnimalApi from '../../../services/fam/fam'
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
   import IdMae from './cell-renderers/IdMae.vue'
 
-  export interface Props {
-    items: Array<any>
-  }
+  const items: any = ref([])
 
-  const props = withDefaults(defineProps<Props>(), {
-    items: () => [],
+  onMounted(async () => {
+    items.value = await (await AnimalApi.getAll()).data
   })
 
   const input = ref('')
@@ -74,10 +73,12 @@
   const defaultColDef = {
     sortable: true,
     minWidth: 65,
-    // maxWidth: 200,
+    maxWidth: 170,
     // filter: true,
     // flex: 1,
     resizable: true,
+    wrapText: true,
+    autoHeight: true,
   }
 
   // in onGridReady, store the api for later use
@@ -101,12 +102,10 @@
       pinned: 'left',
       headerName: 'Nome',
       minWidth: 120,
-      maxWidth: 200,
+      maxWidth: 170,
       width: 120,
       suppressSizeToFit: true,
       cellRenderer: Nome,
-      wrapText: true,
-      autoHeight: true,
     },
     {
       field: 'brinco',
@@ -117,8 +116,24 @@
       suppressSizeToFit: true,
     },
     { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo' },
-    { field: 'idmae', headerName: 'Mãe', sortingOrder: ['asc', 'desc'], cellRenderer: IdMae },
-    { field: 'idpai', headerName: 'Pai', sortingOrder: ['asc', 'desc'] },
+    {
+      field: 'idmae',
+      headerName: 'Mãe',
+      sortingOrder: ['asc', 'desc'],
+      cellRenderer: Nome,
+      cellRendererParams: {
+        hierarchy: 'idmae',
+      },
+    },
+    {
+      field: 'idpai',
+      headerName: 'Pai',
+      sortingOrder: ['asc', 'desc'],
+      cellRenderer: Nome,
+      cellRendererParams: {
+        hierarchy: 'idpai',
+      },
+    },
     { field: 'datanascimento', sortingOrder: ['asc', 'desc'], headerName: 'Nascimento' },
     { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
     { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária' },
@@ -136,24 +151,6 @@
   // TODO add a custom filtering function to filter only by nome and brinco
 
   // TODO Add advanced options to define which columns to filter by
-
-  // TODO pre-work items so that we have links working
-  function getParentValueStr(item: any) {
-    if (!item) return ''
-    const brincoStr = item.brinco ? ` - Br. ${item.brinco}` : ''
-    return `${item.id}|${item.nome}${brincoStr}`
-  }
-  const computedItems = computed(() => {
-    return props.items.map((item) => {
-      return {
-        ...item,
-        brinco: item.brinco,
-        nome: item.nome,
-        sexo: item.sexo,
-        idpai: getParentValueStr(item.idpai),
-      }
-    })
-  })
 </script>
 
 <style lang="scss">

@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: 'animals',
         path: 'animals',
-        component: () => import('../pages/admin/animals/AnimalsAll.vue'),
+        component: () => import('../pages/admin/animals/AnimalsTable.vue'),
       },
       {
         name: 'animalsDetails',
