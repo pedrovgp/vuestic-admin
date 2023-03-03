@@ -19,7 +19,7 @@
         </template>
       </va-tabs>
       <va-separator />
-      <component :is="tabs[activeTabName]" @submit="submit" />
+      <component :is="tabs[activeTabName]" v-if="animalLoaded()" :animal="animal" @submit="submit" />
     </va-card-content>
   </va-card>
 </template>
@@ -46,7 +46,11 @@
     },
   )
 
-  const animal: any = ref([])
+  const animal: any = ref(null)
+
+  function animalLoaded() {
+    return animal.value != null
+  }
 
   onMounted(async () => {
     animal.value = await (await AnimalApi.get(parseInt(props.animalId))).data
