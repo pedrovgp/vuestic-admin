@@ -59,11 +59,15 @@
     sortable: true,
     minWidth: 65,
     maxWidth: 170,
+    initialWidth: 100,
     // filter: true,
     // flex: 1,
     resizable: true,
+    // wrapping cell and header texts
     wrapText: true,
     autoHeight: true,
+    wrapHeaderText: true,
+    autoHeaderHeight: true,
   }
 
   // in onGridReady, store the api for later use
@@ -121,13 +125,13 @@
     },
     { field: 'datanascimento', sortingOrder: ['asc', 'desc'], headerName: 'Nascimento' },
     { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
-    { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária' },
+    { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária', initialWidth: 190 },
     { field: 'autoname', sortingOrder: ['asc', 'desc'], headerName: 'Nome auto' },
     { field: 'birthorder', sortingOrder: ['asc', 'desc'], headerName: 'Ordem de nasc.' },
     { field: 'lact_is_open', sortingOrder: ['asc', 'desc'], headerName: 'Lact. aberta', cellRenderer: LactOpen },
     //fieldkey: 'lact_condition', sortingOrder: ['asc', 'desc'], headerName: 'condição' },
     { field: 'categoria', sortingOrder: ['asc', 'desc'], headerName: 'Categoria' },
-    { field: 'pregnancy_condition', sortingOrder: ['asc', 'desc'], headerName: 'Prenhez' },
+    { field: 'pregnancy_condition', sortingOrder: ['asc', 'desc'], headerName: 'Prenhez', initialWidth: 190 },
     { field: 'last_birth_date', sortingOrder: ['asc', 'desc'], headerName: 'Último parto' },
     { field: 'iep', sortingOrder: ['asc', 'desc'], headerName: 'IEP' },
     { field: 'origem', sortingOrder: ['asc', 'desc'], headerName: 'Origem' },
@@ -142,5 +146,8 @@
   @import '@vuestic/ag-grid-theme';
   .ag-cell {
     --ag-cell-horizontal-padding: 5px;
+  }
+  .ag-cell-value {
+    line-height: 1.1em;
   }
 </style>

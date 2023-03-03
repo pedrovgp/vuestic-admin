@@ -31,6 +31,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'animalsDetails',
         path: 'animals/:animalId(\\d+)',
         component: () => import('../pages/admin/animals/AnimalDetails.vue'),
+        props: true,
       },
       {
         name: 'statistics',

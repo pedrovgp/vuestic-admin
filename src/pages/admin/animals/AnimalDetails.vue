@@ -10,10 +10,10 @@
           <va-tab name="OverviewTab" :animal="animal">
             {{ t('animals.tabs.overview.title') }}
           </va-tab>
-          <!-- <va-tab name="BillingAddressTab">
+          <va-tab name="BillingAddressTab" :animal="animal">
             {{ t('dashboard.tabs.billingAddress.title') }}
           </va-tab>
-          <va-tab name="BankDetailsTab">
+          <!-- <va-tab name="BankDetailsTab">
             {{ t('dashboard.tabs.bankDetails.title') }}
           </va-tab> -->
         </template>
@@ -24,8 +24,14 @@
   </va-card>
 </template>
 
+<script lang="ts">
+  export default {
+    name: 'AnimalDetails',
+  }
+</script>
+
 <script setup lang="ts">
-  import { defineAsyncComponent, ref } from 'vue'
+  import { defineAsyncComponent, ref, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
   import AnimalApi from '../../../services/fam/fam'
 
@@ -33,18 +39,22 @@
 
   const props = withDefaults(
     defineProps<{
-      animalId: number
+      animalId: string
     }>(),
     {
-      animalId: 1,
+      animalId: '1',
     },
   )
 
-  const animal: any = AnimalApi.get(props.animalId)
+  const animal: any = ref([])
+
+  onMounted(async () => {
+    animal.value = await (await AnimalApi.get(parseInt(props.animalId))).data
+  })
 
   const tabs = {
     OverviewTab: defineAsyncComponent(() => import('./details-tabs/OverviewTab.vue')),
-    // BillingAddressTab: defineAsyncComponent(() => import('./details-tabs/BillingAddressTab.vue')),
+    BillingAddressTab: defineAsyncComponent(() => import('./details-tabs/BillingAddressTab.vue')),
     // BankDetailsTab: defineAsyncComponent(() => import('./details-tabs/BankDetailsTab.vue')),
   }
 

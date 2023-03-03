@@ -37,6 +37,12 @@
   </div>
 </template>
 
+<script lang="ts">
+  export default {
+    name: 'AnimalOverviewTab',
+  }
+</script>
+
 <script setup lang="ts">
   import { computed, reactive, ref, watch } from 'vue'
   import { useColors } from 'vuestic-ui'
@@ -52,7 +58,7 @@
       animal: any
     }>(),
     {
-      animal: null,
+      animal: { nome: 'teste' },
     },
   )
 

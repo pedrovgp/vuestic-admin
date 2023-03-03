@@ -6,7 +6,7 @@ class AnimalsApi {
   }
 
   get(id: number) {
-    return http.get<any>(`/animals/${id}`)
+    return http.get<any>(`/animals/${id}/`)
   }
 
   create(data: any) {
@@ -14,7 +14,7 @@ class AnimalsApi {
   }
 
   update(data: any, id: number) {
-    return http.put<any>(`/animals/${id}`, data)
+    return http.put<any>(`/animals/${id}/`, data)
   }
 
   //   delete(id: any) {
@@ -26,7 +26,7 @@ class AnimalsApi {
   //   }
 
   query(q: string) {
-    return http.get<Array<any>>(`/animals?q=${q}`)
+    return http.get<Array<any>>(`/animals/?q=${q}`)
   }
 }
 
