@@ -89,6 +89,15 @@
     autoHeaderHeight: true,
   }
 
+  const defaultColumnFilter = {
+    filter: true,
+    floatingFilter: true, //https://www.ag-grid.com/vue-data-grid/floating-filters/
+    floatingFilterComponentParams: { suppressFilterButton: true },
+    filterParams: {
+      debounceMs: 200,
+    },
+  }
+
   const columns = ref([
     {
       field: 'nome',
@@ -101,6 +110,7 @@
       width: 120,
       suppressSizeToFit: true,
       cellRenderer: Nome,
+      ...defaultColumnFilter,
     },
     {
       field: 'brinco',
@@ -109,6 +119,7 @@
       minWidth: 60,
       width: 60,
       suppressSizeToFit: true,
+      ...defaultColumnFilter,
     },
     { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo' },
     {
@@ -119,6 +130,7 @@
       cellRendererParams: {
         hierarchy: 'idmae',
       },
+      ...defaultColumnFilter,
     },
     {
       field: 'idpai',
@@ -128,8 +140,15 @@
       cellRendererParams: {
         hierarchy: 'idpai',
       },
+      ...defaultColumnFilter,
     },
-    { field: 'datanascimento', sortingOrder: ['asc', 'desc'], headerName: 'Nascimento' },
+    {
+      field: 'datanascimento',
+      sortingOrder: ['asc', 'desc'],
+      headerName: 'Nascimento',
+      // filter: true,
+      // floatingFilter: true,
+    },
     { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
     { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária', initialWidth: 190 },
     { field: 'autoname', sortingOrder: ['asc', 'desc'], headerName: 'Nome auto' },
