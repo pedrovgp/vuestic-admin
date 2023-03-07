@@ -9,7 +9,11 @@
     </span>
   </va-alert>
   <row>
-    <va-input v-model="input" class="flex flex-col mb-2 md6 xs12" placeholder="Escreva aqui para filtrar" />
+    <va-input
+      v-model="quickFilterText"
+      class="flex flex-col mb-2 md6 xs12"
+      placeholder="Escreva: busca em toda a tabela"
+    />
   </row>
   <ag-grid-vue
     class="ag-theme-alpine"
@@ -17,6 +21,7 @@
     :column-defs="columns"
     :row-data="items"
     :default-col-def="defaultColDef"
+    :quick-filter-text="debouncedQuickFilterText"
     animate-rows="true"
     @grid-ready="onGridReady"
     @virtual-columns-changed="onColumnsChanged"
@@ -44,13 +49,27 @@
     items.value = await (await AnimalApi.getAll()).data
   })
 
-  const input = ref('')
-  const debouncedInput = ref('')
+  // in onGridReady, store the api for later use
+  // Obtain API from grid's onGridReady event
+  const gridApi = ref(null) // Optional - for accessing Grid's API
+  const columnApi = ref(null) // Optional - for accessing Grid's API
+  function onGridReady(params: any) {
+    gridApi.value = params.api
+    columnApi.value = params.columnApi
+  }
+
+  function onColumnsChanged(params: any) {
+    params.columnApi.autoSizeAllColumns()
+  }
+
+  // Quick Filter
+  const quickFilterText = ref('')
+  const debouncedQuickFilterText = ref('')
 
   watch(
-    input,
+    quickFilterText,
     debounce(() => {
-      debouncedInput.value = input.value
+      debouncedQuickFilterText.value = quickFilterText.value
     }, 500),
   )
 
@@ -68,19 +87,6 @@
     autoHeight: true,
     wrapHeaderText: true,
     autoHeaderHeight: true,
-  }
-
-  // in onGridReady, store the api for later use
-  // Obtain API from grid's onGridReady event
-  const gridApi = ref(null) // Optional - for accessing Grid's API
-  const columnApi = ref(null) // Optional - for accessing Grid's API
-  function onGridReady(params: any) {
-    gridApi.value = params.api
-    columnApi.value = params.columnApi
-  }
-
-  function onColumnsChanged(params: any) {
-    params.columnApi.autoSizeAllColumns()
   }
 
   const columns = ref([
