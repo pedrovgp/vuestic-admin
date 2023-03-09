@@ -7,6 +7,7 @@
         v-model="defaultAnimalFilter"
         hover-behavior="opacity"
         :hover-opacity="0.4"
+        size="small"
         @click="defaultAnimalFilter = !defaultAnimalFilter"
         >{{ defaultAnimalFilter ? 'vivos na estância Suzana' : 'todos já registrados' }}
       </va-button>
@@ -55,12 +56,12 @@
 
   // in onGridReady, store the api for later use
   // Obtain API from grid's onGridReady event
-  const gridApi = ref(null) // Optional - for accessing Grid's API
-  const columnApi = ref(null) // Optional - for accessing Grid's API
+  const gridApi = ref(null as any) // Optional - for accessing Grid's API
+  const columnApi = ref(null as any) // Optional - for accessing Column's API
   function onGridReady(params: any) {
+    params.api.showLoadingOverlay()
     gridApi.value = params.api
     columnApi.value = params.columnApi
-    gridApi.value.showLoadingOverlay()
   }
 
   function onColumnsChanged(params: any) {
