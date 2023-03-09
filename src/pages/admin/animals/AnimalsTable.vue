@@ -2,9 +2,15 @@
 <template>
   <va-alert class="mt-3" color="info" outline>
     <span>
-      Mostrando apenas animais
-      <va-chip>vivos na estância Suzana</va-chip>.
-      <p v-if="items.length ? true : false">{{ items.length }} no total.</p>
+      Mostrando animais
+      <va-button
+        v-model="defaultAnimalFilter"
+        hover-behavior="opacity"
+        :hover-opacity="0.4"
+        @click="defaultAnimalFilter = !defaultAnimalFilter"
+        >{{ defaultAnimalFilter ? 'vivos na estância Suzana' : 'todos já registrados' }}
+      </va-button>
+      <p v-if="!loading">{{ items.length }} no total.</p>
       <p v-else>Carregando...</p>
     </span>
   </va-alert>
@@ -44,10 +50,8 @@
   import LactOpen from './cell-renderers/LactOpen.vue'
 
   const items: any = ref([])
-
-  onMounted(async () => {
-    items.value = await (await AnimalApi.getAll()).data
-  })
+  const defaultAnimalFilter = ref(true)
+  const loading = ref(true)
 
   // in onGridReady, store the api for later use
   // Obtain API from grid's onGridReady event
@@ -56,11 +60,29 @@
   function onGridReady(params: any) {
     gridApi.value = params.api
     columnApi.value = params.columnApi
+    gridApi.value.showLoadingOverlay()
   }
 
   function onColumnsChanged(params: any) {
     params.columnApi.autoSizeAllColumns()
   }
+
+  function updateTableItems() {
+    loading.value = true
+    if (gridApi.value != null) gridApi.value.showLoadingOverlay()
+    AnimalApi.getAll(defaultAnimalFilter.value ? { default_animal_filter: '1' } : {})
+      .then((response) => {
+        items.value = response.data
+        loading.value = false
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+  onMounted(async () => {
+    updateTableItems()
+  })
+  watch(defaultAnimalFilter, updateTableItems)
 
   // Quick Filter
   const quickFilterText = ref('')

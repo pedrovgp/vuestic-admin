@@ -1,8 +1,10 @@
 import http from '../http-common'
 
 class AnimalsApi {
-  getAll() {
-    return http.get<Array<any>>('/animals/')
+  getAll(params: any) {
+    // Joins params with & and adds ? to the beginning
+    const query = new URLSearchParams(params).toString()
+    return http.get<Array<any>>(`/animals/?${query}`)
   }
 
   get(id: number) {
