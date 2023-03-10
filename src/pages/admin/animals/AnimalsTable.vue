@@ -132,6 +132,7 @@
       maxWidth: 170,
       width: 120,
       suppressSizeToFit: true,
+      suppressMovable: true,
       cellRenderer: Nome,
       ...defaultColumnFilter,
     },
