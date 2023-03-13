@@ -15,7 +15,6 @@ which options fetch Animal objects from the backend through the rest API -->
 </template>
 
 <script setup lang="ts">
-  import { number } from '@intlify/core-base'
   import { ref, Ref, watch, onMounted } from 'vue'
   import AnimalApi from '../../../../services/fam/fam'
   import debounce from 'lodash.debounce'
@@ -41,39 +40,56 @@ which options fetch Animal objects from the backend through the rest API -->
   const isLoading: Ref<boolean> = ref(false)
   const debouncedSearchTerm: Ref<string> = ref('')
 
+  onMounted(() => {
+    if (props.animalId) {
+      updateSelected()
+    }
+  })
   // Debounce the searchUpdated function
   const searchUpdated = debounce((searchTerm: string) => {
     debouncedSearchTerm.value = searchTerm
   }, 300)
 
-  if (props.animalId) {
+  function updateSelected() {
     // If the component receives an animalId prop, it will fetch the animal and set it as the selectedOption
-    AnimalApi.get(props.animalId)
-      .then((response) => {
-        selectedOption.value = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    let idToFetch: string | null = null
+    if (selectedOption.value == null) {
+      if (props.animalId) {
+        idToFetch = props.animalId.toString()
+      }
+    } else {
+      idToFetch = selectedOption.value.id
+    }
+    if (idToFetch) {
+      AnimalApi.get(parseInt(idToFetch))
+        .then((response) => {
+          selectedOption.value = response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 
   function fetchOptions() {
     isLoading.value = true
-    AnimalApi.query(debouncedSearchTerm.value)
-      .then((response) => {
-        options.value = response.data
-        console.log(response.data)
-        isLoading.value = false
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    isLoading.value = false
+    if (debouncedSearchTerm.value.length > 0) {
+      AnimalApi.query(debouncedSearchTerm.value)
+        .then((response) => {
+          options.value = response.data
+          isLoading.value = false
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      isLoading.value = false
+    } else {
+      options.value = []
+      isLoading.value = false
+    }
   }
 
-  onMounted(async () => {
-    fetchOptions()
-  })
+  watch(debouncedSearchTerm, fetchOptions)
 
   watch(selectedOption, async (newValue, oldValue) => {
     // Whenever the selectedOption changes, we update the backend
@@ -82,13 +98,14 @@ which options fetch Animal objects from the backend through the rest API -->
     if (newValue != oldValue) {
       if (typeof newValue === 'string' || typeof newValue === 'number') {
         props.updateApi
-          .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue } })
+          .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue.toString() } })
           .then((response: any) => {
             console.log(response)
             isLoading.value = false
           })
           .catch((error: any) => {
             console.log(error)
+            // selectedOption.value = oldValue
             isLoading.value = false
           })
       }

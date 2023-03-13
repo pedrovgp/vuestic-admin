@@ -15,9 +15,8 @@ class AnimalsApi {
     return http.post<any>('/animals', data)
   }
 
-  update({ id, data }: { id: string; data: any }) {
-    console.log(id)
-    return http.patch<any>(`/animals/${id}/`, data)
+  query(q: string) {
+    return http.get<Array<any>>(`/animals/?q=${q}`)
   }
 
   //   delete(id: any) {
@@ -28,8 +27,9 @@ class AnimalsApi {
   //     return http.delete<any>(`/tutorials`)
   //   }
 
-  query(q: string) {
-    return http.get<Array<any>>(`/animals/?q=${q}`)
+  update({ id, data }: { id: string; data: any }) {
+    console.log(data)
+    return http.patch<any>(`/animals/patch/${id}/`, data)
   }
 }
 
