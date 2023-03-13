@@ -7,12 +7,10 @@
     <va-card-content>
       <va-tabs v-model="activeTabName" grow>
         <template #tabs>
-          <va-tab name="OverviewTab" :animal="animal">
-            {{ t('animals.tabs.overview.title') }}
-          </va-tab>
-          <va-tab name="BillingAddressTab" :animal="animal">
+          <va-tab name="MainTab"> Geral </va-tab>
+          <!-- <va-tab name="BillingAddressTab">
             {{ t('dashboard.tabs.billingAddress.title') }}
-          </va-tab>
+          </va-tab> -->
           <!-- <va-tab name="BankDetailsTab">
             {{ t('dashboard.tabs.bankDetails.title') }}
           </va-tab> -->
@@ -37,14 +35,9 @@
 
   const { t } = useI18n()
 
-  const props = withDefaults(
-    defineProps<{
-      animalId: string
-    }>(),
-    {
-      animalId: '1',
-    },
-  )
+  const props = defineProps<{
+    animalId: string
+  }>()
 
   const animal: any = ref(null)
 
@@ -57,8 +50,8 @@
   })
 
   const tabs = {
-    OverviewTab: defineAsyncComponent(() => import('./details-tabs/OverviewTab.vue')),
-    BillingAddressTab: defineAsyncComponent(() => import('./details-tabs/BillingAddressTab.vue')),
+    MainTab: defineAsyncComponent(() => import('./details-tabs/MainTab.vue')),
+    // BillingAddressTab: defineAsyncComponent(() => import('./details-tabs/BillingAddressTab.vue')),
     // BankDetailsTab: defineAsyncComponent(() => import('./details-tabs/BankDetailsTab.vue')),
   }
 
@@ -66,7 +59,7 @@
     (e: 'submit', data: any): void
   }>()
 
-  const activeTabName = ref<keyof typeof tabs>('OverviewTab')
+  const activeTabName = ref<keyof typeof tabs>('MainTab')
 
   function submit(data: any) {
     emit('submit', data)
