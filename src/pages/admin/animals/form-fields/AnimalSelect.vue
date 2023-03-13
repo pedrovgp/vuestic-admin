@@ -7,15 +7,15 @@ which options fetch Animal objects from the backend through the rest API -->
     :options="options"
     :text-by="(option: Option) => `${option.nome} - Br. ${option.brinco}`"
     :value-by="(option: Option) => option.id"
+    :track-by="(option: Option) => option.id"
     :loading="isLoading"
     searchable
-    highlight-matched-text
-    @update-search="fetchOptions"
+    @update-search="searchUpdated"
   ></va-select>
 </template>
 
 <script setup lang="ts">
-  import { ref, Ref } from 'vue'
+  import { ref, Ref, watch } from 'vue'
   import AnimalApi from '../../../../services/fam/fam'
   import debounce from 'lodash.debounce'
 
@@ -35,6 +35,12 @@ which options fetch Animal objects from the backend through the rest API -->
   const selectedOption: Ref<Option | null> = ref(null)
   const options: Ref<Option[]> = ref([])
   const isLoading: Ref<boolean> = ref(false)
+  const debouncedSearchTerm: Ref<string> = ref('')
+
+  // Debounce the searchUpdated function
+  const searchUpdated = debounce((searchTerm: string) => {
+    debouncedSearchTerm.value = searchTerm
+  }, 300)
 
   if (props.animalId) {
     // If the component receives an animalId prop, it will fetch the animal and set it as the selectedOption
@@ -47,15 +53,12 @@ which options fetch Animal objects from the backend through the rest API -->
       })
   }
 
-  const fetchOptions = async (searchTerm: string) => {
-    if (searchTerm.length < 2) {
-      // If the search term is less than 3 characters, don't fetch anything
-      return []
-    }
+  function fetchOptions() {
     isLoading.value = true
-    AnimalApi.query(searchTerm)
+    AnimalApi.query(debouncedSearchTerm.value)
       .then((response) => {
         options.value = response.data
+        console.log(response.data)
         isLoading.value = false
       })
       .catch((error) => {
@@ -63,4 +66,7 @@ which options fetch Animal objects from the backend through the rest API -->
       })
     isLoading.value = false
   }
+
+  // Update options with debouncedSearchTerm
+  watch(debouncedSearchTerm, fetchOptions)
 </script>
