@@ -15,8 +15,9 @@ class AnimalsApi {
     return http.post<any>('/animals', data)
   }
 
-  update(data: any, id: number) {
-    return http.put<any>(`/animals/${id}/`, data)
+  update({ id, data }: { id: string; data: any }) {
+    console.log(id)
+    return http.patch<any>(`/animals/${id}/`, data)
   }
 
   //   delete(id: any) {

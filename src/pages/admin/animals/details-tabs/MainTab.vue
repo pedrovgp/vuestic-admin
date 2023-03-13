@@ -9,7 +9,13 @@
       </div>
       <div class="flex sm12 md6">
         <div class="title mb-3" :style="computedStylesTitle">Mais informações</div>
-        <animal-select :animal-id="animal.idmae?.id" :label="'Mãe'" />
+        <animal-select
+          :animal-id="animal.idmae?.id"
+          :label="'Mãe'"
+          :update-api="AnimalApi"
+          :update-field-name="'idmae'"
+          :update-entity-id="animal.id.toString()"
+        />
         <!-- <va-input v-model="animal.idpai" readonly :label="'Pai'" /> -->
       </div>
     </div>
@@ -30,6 +36,7 @@
   import { useColors } from 'vuestic-ui'
   import { useI18n } from 'vue-i18n'
   import AnimalSelect from '../form-fields/AnimalSelect.vue'
+  import AnimalApi from '../../../../services/fam/fam'
 
   const { colors } = useColors()
   const { t } = useI18n()
