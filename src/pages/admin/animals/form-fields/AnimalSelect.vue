@@ -7,7 +7,6 @@ which options fetch Animal objects from the backend through the rest API -->
     :options="options"
     :text-by="(option: Option) => `${option.nome} - Br. ${option.brinco}`"
     :value-by="(option: Option) => option.id"
-    :track-by="(option: Option) => option.id"
     :loading="isLoading"
     searchable
     @update-search="searchUpdated"
@@ -42,7 +41,7 @@ which options fetch Animal objects from the backend through the rest API -->
 
   onMounted(() => {
     if (props.animalId) {
-      updateSelected()
+      updateSelectedOption(props.animalId.toString())
     }
   })
   // Debounce the searchUpdated function
@@ -50,20 +49,14 @@ which options fetch Animal objects from the backend through the rest API -->
     debouncedSearchTerm.value = searchTerm
   }, 300)
 
-  function updateSelected() {
-    // If the component receives an animalId prop, it will fetch the animal and set it as the selectedOption
-    let idToFetch: string | null = null
-    if (selectedOption.value == null) {
-      if (props.animalId) {
-        idToFetch = props.animalId.toString()
-      }
-    } else {
-      idToFetch = selectedOption.value.id
-    }
-    if (idToFetch) {
-      AnimalApi.get(parseInt(idToFetch))
+  function updateSelectedOption(id: string | null) {
+    // Selected option is set to string instead of the object, when selected
+    if (id != null) {
+      AnimalApi.get(parseInt(id))
         .then((response) => {
+          console.log('changing')
           selectedOption.value = response.data
+          tempSelectedOption.value = response.data
         })
         .catch((error) => {
           console.log(error)
@@ -91,24 +84,28 @@ which options fetch Animal objects from the backend through the rest API -->
 
   watch(debouncedSearchTerm, fetchOptions)
 
-  watch(selectedOption, async (newValue, oldValue) => {
+  // selectedOption becomes a string, when selected, we must turn it back to an object
+  // only then we can update the backend. This will require a temporary variable
+  const tempSelectedOption: Ref<Option | null> = ref(selectedOption.value)
+  watch(selectedOption, async (newValue, oldValue): Promise<void> => {
     // Whenever the selectedOption changes, we update the backend
     // This needs to be customizable, we never know which related entity to update
     isLoading.value = true
-    if (newValue != oldValue) {
-      if (typeof newValue === 'string' || typeof newValue === 'number') {
-        props.updateApi
-          .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue.toString() } })
-          .then((response: any) => {
-            console.log(response)
-            isLoading.value = false
-          })
-          .catch((error: any) => {
-            console.log(error)
-            // selectedOption.value = oldValue
-            isLoading.value = false
-          })
-      }
+    console.log(`selectedOption changed from ${oldValue} to ${newValue}`)
+    // const oldId = tempSelectedOption.value != null ? tempSelectedOption.value.id : null
+    if (typeof newValue === 'number' || newValue == null) {
+      props.updateApi
+        .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue } })
+        .then((response: any) => {
+          console.log(response)
+          updateSelectedOption(newValue)
+          isLoading.value = false
+        })
+        .catch((error: any) => {
+          console.log(error)
+          selectedOption.value = tempSelectedOption.value
+          isLoading.value = false
+        })
     }
   })
 </script>
