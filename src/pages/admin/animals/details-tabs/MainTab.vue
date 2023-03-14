@@ -15,6 +15,7 @@
           :update-api="AnimalApi"
           :update-field-name="'idmae'"
           :update-entity-id="animal.id.toString()"
+          :success-message="'Mãe atualizada com sucesso'"
         />
         <!-- <va-input v-model="animal.idpai" readonly :label="'Pai'" /> -->
       </div>

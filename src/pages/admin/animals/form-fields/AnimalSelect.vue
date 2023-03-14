@@ -9,6 +9,10 @@ which options fetch Animal objects from the backend through the rest API -->
     :value-by="(option: Option) => option.id"
     :loading="isLoading"
     searchable
+    :error="fieldError ? true : null"
+    :error-messages="errorMessages.values ? errorMessages : null"
+    :success="fieldSuccess ? true : null"
+    :messages="messages.values ? messages : null"
     @update-search="searchUpdated"
   ></va-select>
 </template>
@@ -25,6 +29,7 @@ which options fetch Animal objects from the backend through the rest API -->
     updateApi: any // The API to update the related entity (for example, API to update Animal location)
     updateFieldName: string // The field name to update in the related entity (ex.: 'animal_id')
     updateEntityId: string // The id of the related entity to update (ex.: location_id)
+    successMessage?: string // The message to show when the update is successful
   }>()
 
   interface Option {
@@ -38,6 +43,11 @@ which options fetch Animal objects from the backend through the rest API -->
   const options: Ref<Option[]> = ref([])
   const isLoading: Ref<boolean> = ref(false)
   const debouncedSearchTerm: Ref<string> = ref('')
+  const fieldError: Ref<boolean> = ref(false)
+  const errorMessages = ref([])
+  const fieldSuccess: Ref<boolean> = ref(false)
+  const messages = ref([])
+  const successMessage = props.successMessage !== undefined ? [props.successMessage] : ['Atualizado']
 
   onMounted(() => {
     if (props.animalId) {
@@ -49,7 +59,7 @@ which options fetch Animal objects from the backend through the rest API -->
     debouncedSearchTerm.value = searchTerm
   }, 300)
 
-  function updateSelectedOption(id: string | null) {
+  function updateSelectedOption(id: string | null, informSuccess = false) {
     // Selected option is set to string instead of the object, when selected
     if (id != null) {
       AnimalApi.get(parseInt(id))
@@ -57,8 +67,13 @@ which options fetch Animal objects from the backend through the rest API -->
           console.log('changing')
           selectedOption.value = response.data
           tempSelectedOption.value = response.data
+          fieldError.value = false
+          fieldSuccess.value = informSuccess
+          messages.value = informSuccess ? successMessage : []
         })
         .catch((error) => {
+          fieldError.value = true
+          errorMessages.value = [error]
           console.log(error)
         })
     }
@@ -71,8 +86,11 @@ which options fetch Animal objects from the backend through the rest API -->
         .then((response) => {
           options.value = response.data
           isLoading.value = false
+          fieldError.value = false
         })
         .catch((error) => {
+          fieldError.value = true
+          errorMessages.value.push(error)
           console.log(error)
         })
       isLoading.value = false
@@ -98,7 +116,7 @@ which options fetch Animal objects from the backend through the rest API -->
         .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue } })
         .then((response: any) => {
           console.log(response)
-          updateSelectedOption(newValue)
+          updateSelectedOption(newValue, true)
           isLoading.value = false
         })
         .catch((error: any) => {
