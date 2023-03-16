@@ -29,9 +29,9 @@
         />
       </div>
     </div>
-    <div class="row justify-center mb-3">
+    <!-- <div class="row justify-center mb-3">
       <va-button @click="submit"> Salvar alterações </va-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
