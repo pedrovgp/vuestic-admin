@@ -5,8 +5,8 @@ which options fetch Animal objects from the backend through the rest API -->
     v-model="selectedOption"
     :label="props.label || 'Animal'"
     :options="options"
-    :text-by="(option: Option) => `${option.nome} - Br. ${option.brinco}`"
-    :value-by="(option: Option) => option.id"
+    :text-by="(option: any) => `${option.nome} - Br. ${option.brinco}`"
+    :value-by="(option: any) => option.id"
     :loading="isLoading"
     :readonly="!editable"
     searchable
@@ -51,11 +51,11 @@ which options fetch Animal objects from the backend through the rest API -->
   const isLoading: Ref<boolean> = ref(false)
   const debouncedSearchTerm: Ref<string> = ref('')
   const fieldError: Ref<boolean> = ref(false)
-  const errorMessages = ref([])
+  const errorMessages: Ref<any> = ref([])
   const fieldSuccess: Ref<boolean> = ref(false)
   const editable: Ref<boolean> = ref(false)
-  const messages = ref([])
-  const successMessage = props.successMessage !== undefined ? [props.successMessage] : ['Atualizado']
+  const messages: Ref<string[]> = ref([])
+  const successMessage = props.successMessage !== undefined ? props.successMessage : 'Atualizado'
 
   onMounted(() => {
     if (props.animalId) {
@@ -76,7 +76,7 @@ which options fetch Animal objects from the backend through the rest API -->
           tempSelectedOption.value = response.data
           fieldError.value = false
           fieldSuccess.value = informSuccess
-          messages.value = informSuccess ? successMessage : []
+          messages.value = informSuccess ? [successMessage] : []
           editable.value = false
         })
         .catch((error) => {
