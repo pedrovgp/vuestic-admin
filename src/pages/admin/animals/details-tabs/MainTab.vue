@@ -16,8 +16,17 @@
           :update-field-name="'idmae'"
           :update-entity-id="animal.id.toString()"
           :success-message="'Mãe atualizada com sucesso'"
+          :pre-filter="{ sexo: 'FEMEA' }"
         />
-        <!-- <va-input v-model="animal.idpai" readonly :label="'Pai'" /> -->
+        <animal-select
+          :animal-id="animal.idpai?.id"
+          :label="'Pai'"
+          :update-api="AnimalApi"
+          :update-field-name="'idpai'"
+          :update-entity-id="animal.id.toString()"
+          :success-message="'Pai atualizado com sucesso'"
+          :pre-filter="{ sexo: 'MACHO' }"
+        />
       </div>
     </div>
     <div class="row justify-center mb-3">

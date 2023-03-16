@@ -34,7 +34,10 @@ which options fetch Animal objects from the backend through the rest API -->
     updateFieldName: string // The field name to update in the related entity (ex.: 'animal_id')
     updateEntityId: string // The id of the related entity to update (ex.: location_id)
     successMessage?: string // The message to show when the update is successful
+    preFilter?: any // A pre-filter to apply to the options, executed on the backend
   }>()
+
+  const preFilter = props.preFilter || {}
 
   interface Option {
     // An Option mus have an id and a name, and any other property the backend might return
@@ -87,7 +90,8 @@ which options fetch Animal objects from the backend through the rest API -->
   function fetchOptions() {
     isLoading.value = true
     if (debouncedSearchTerm.value.length > 0) {
-      AnimalApi.query(debouncedSearchTerm.value)
+      let params = { ...preFilter, q: debouncedSearchTerm.value }
+      AnimalApi.getAll(params)
         .then((response) => {
           options.value = response.data
           isLoading.value = false
