@@ -8,12 +8,16 @@ which options fetch Animal objects from the backend through the rest API -->
     :text-by="(option: Option) => `${option.nome} - Br. ${option.brinco}`"
     :value-by="(option: Option) => option.id"
     :loading="isLoading"
+    :readonly="!editable"
     searchable
     :error="fieldError ? true : null"
     :error-messages="errorMessages.values ? errorMessages : null"
     :success="fieldSuccess ? true : null"
     :messages="messages.values ? messages : null"
     @update-search="searchUpdated"
+    ><template #append>
+      <va-button v-model="editable" :icon="editable ? 'clear' : 'edit'" class="mb-2" @click="editable = !editable">
+      </va-button> </template
   ></va-select>
 </template>
 
@@ -46,6 +50,7 @@ which options fetch Animal objects from the backend through the rest API -->
   const fieldError: Ref<boolean> = ref(false)
   const errorMessages = ref([])
   const fieldSuccess: Ref<boolean> = ref(false)
+  const editable: Ref<boolean> = ref(false)
   const messages = ref([])
   const successMessage = props.successMessage !== undefined ? [props.successMessage] : ['Atualizado']
 
@@ -64,12 +69,12 @@ which options fetch Animal objects from the backend through the rest API -->
     if (id != null) {
       AnimalApi.get(parseInt(id))
         .then((response) => {
-          console.log('changing')
           selectedOption.value = response.data
           tempSelectedOption.value = response.data
           fieldError.value = false
           fieldSuccess.value = informSuccess
           messages.value = informSuccess ? successMessage : []
+          editable.value = false
         })
         .catch((error) => {
           fieldError.value = true
