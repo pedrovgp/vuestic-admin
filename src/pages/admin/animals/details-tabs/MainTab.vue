@@ -3,7 +3,15 @@
     <div class="row">
       <div class="flex sm12 md6">
         <div class="title mb-3" :style="computedStylesTitle">Principal</div>
-        <va-input v-model="animal.nome" :label="'Nome'" />
+        <model-text-input
+          :initial-value="animal.nome"
+          :update-api="AnimalApi"
+          :update-field-name="'nome'"
+          :update-entity-id="animal.id.toString()"
+          :label="'Nome'"
+          :success-message="'Nome atualizado com sucesso'"
+        />
+        <!-- <va-input v-model="animal.nome" :label="'Nome'" /> -->
         <va-input v-model="animal.datanascimento" :label="'Nascimento'" />
         <va-input v-model="animal.brinco" :label="'Brinco'" />
       </div>
@@ -46,6 +54,7 @@
   import { useColors } from 'vuestic-ui'
   import { useI18n } from 'vue-i18n'
   import AnimalSelect from '../form-fields/AnimalSelect.vue'
+  import ModelTextInput from '../form-fields/ModelTextInput.vue'
   import AnimalApi from '../../../../services/fam/fam'
 
   const { colors } = useColors()
