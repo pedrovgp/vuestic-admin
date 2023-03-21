@@ -5,8 +5,7 @@
       Mostrando animais
       <va-button
         v-model="defaultAnimalFilter"
-        hover-behavior="opacity"
-        :hover-opacity="0.4"
+        :disabled="loading ? true : null"
         size="small"
         @click="defaultAnimalFilter = !defaultAnimalFilter"
         >{{ defaultAnimalFilter ? 'vivos na estância Suzana' : 'todos já registrados' }}
