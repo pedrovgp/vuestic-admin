@@ -43,14 +43,14 @@ which options fetch Animal objects from the backend through the rest API -->
   const successMessage = props.successMessage !== undefined ? props.successMessage : 'Atualizado'
 
   function done() {
-    editable.value = !editable.value
+    editable.value = false
     isLoading.value = true
     updateBackendAndSync()
     isLoading.value = false
   }
 
   function clear() {
-    editable.value = !editable.value
+    editable.value = false
     isLoading.value = true
     currentValue.value = tempCurrentValue.value
     isLoading.value = false
@@ -58,7 +58,7 @@ which options fetch Animal objects from the backend through the rest API -->
   }
 
   function edit() {
-    editable.value = !editable.value
+    editable.value = true
     clearMessages()
   }
 
