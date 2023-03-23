@@ -1,7 +1,8 @@
 <!-- This component is a Vuestic va-select field
 which options fetch Animal objects from the backend through the rest API -->
 <template>
-  <va-input
+  <component
+    :is="component"
     v-model="currentValue"
     :label="props.label || props.updateFieldName"
     :loading="isLoading"
@@ -10,17 +11,20 @@ which options fetch Animal objects from the backend through the rest API -->
     :error-messages="errorMessages.values ? errorMessages : null"
     :success="fieldSuccess ? true : null"
     :messages="messages.values ? messages : null"
+    :format="formatFn"
+    manual-input
     ><template #append>
       <va-button v-if="!editable" :icon="editable ? 'clear' : 'edit'" class="mb-2" @click="edit()" />
       <div v-else>
         <va-button :icon="'done'" class="mb-2" @click="done()" />
         <va-button :icon="'clear'" class="mb-2" @click="clear()" />
       </div> </template
-  ></va-input>
+  ></component>
 </template>
 
 <script setup lang="ts">
-  import { ref, Ref } from 'vue'
+  import { ref, Ref, computed } from 'vue'
+  import { VaInput, VaDateInput } from 'vuestic-ui/web-components'
 
   const props = defineProps<{
     // The component can receive an animalId prop, which will be used to fetch the animal
@@ -30,7 +34,29 @@ which options fetch Animal objects from the backend through the rest API -->
     updateFieldName: string // The field name to update in the related entity (ex.: 'animal_id')
     updateEntityId: string // The id of the related entity to update (ex.: location_id)
     successMessage?: string // The message to show when the update is successful
+    componentType?: string // The type of the component to use (input, date, etc)
   }>()
+
+  const component = computed(() => {
+    if (props.componentType === 'date') {
+      return VaDateInput
+    }
+    return VaInput
+  })
+
+  function formatFn(value: any) {
+    if (props.componentType === 'date') {
+      return value.toISOString().split('T')[0]
+    }
+    return value
+  }
+
+  function apiFormatFn(value: any) {
+    if (props.componentType === 'date') {
+      return value.toISOString().split('T')[0]
+    }
+    return value
+  }
 
   const currentValue: Ref<string | undefined | null> = ref(props.initialValue)
   const tempCurrentValue: Ref<string | undefined | null> = ref(props.initialValue)
@@ -71,7 +97,7 @@ which options fetch Animal objects from the backend through the rest API -->
 
   function updateBackendAndSync() {
     props.updateApi
-      .update({ id: props.updateEntityId, data: { [props.updateFieldName]: currentValue.value } })
+      .update({ id: props.updateEntityId, data: { [props.updateFieldName]: apiFormatFn(currentValue.value) } })
       .then((response: any) => {
         console.log(response)
         tempCurrentValue.value = currentValue.value

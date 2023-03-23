@@ -11,9 +11,23 @@
           :label="'Nome'"
           :success-message="'Nome atualizado com sucesso'"
         />
-        <!-- <va-input v-model="animal.nome" :label="'Nome'" /> -->
-        <va-input v-model="animal.datanascimento" :label="'Nascimento'" />
-        <va-input v-model="animal.brinco" :label="'Brinco'" />
+        <model-text-input
+          :initial-value="animal.datanascimento"
+          :component-type="'date'"
+          :update-api="AnimalApi"
+          :update-field-name="'datanascimento'"
+          :update-entity-id="animal.id.toString()"
+          :label="'Nascimento'"
+          :success-message="'Nascimento atualizado com sucesso'"
+        />
+        <model-text-input
+          :initial-value="animal.brinco"
+          :update-api="AnimalApi"
+          :update-field-name="'brinco'"
+          :update-entity-id="animal.id.toString()"
+          :label="'Brinco'"
+          :success-message="'Brinco atualizado com sucesso'"
+        />
       </div>
       <div class="flex sm12 md6">
         <div class="title mb-3" :style="computedStylesTitle">Mais informações</div>

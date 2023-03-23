@@ -94,7 +94,6 @@ which options fetch Animal objects from the backend through the rest API -->
       AnimalApi.getAll(params)
         .then((response) => {
           options.value = response.data
-          isLoading.value = false
           fieldError.value = false
         })
         .catch((error) => {
@@ -102,11 +101,11 @@ which options fetch Animal objects from the backend through the rest API -->
           errorMessages.value.push(error)
           console.log(error)
         })
-      isLoading.value = false
     } else {
       options.value = []
       isLoading.value = false
     }
+    isLoading.value = false
   }
 
   watch(debouncedSearchTerm, fetchOptions)
@@ -126,13 +125,12 @@ which options fetch Animal objects from the backend through the rest API -->
         .then((response: any) => {
           console.log(response)
           updateSelectedOption(newValue, true)
-          isLoading.value = false
         })
         .catch((error: any) => {
           console.log(error)
           selectedOption.value = tempSelectedOption.value
-          isLoading.value = false
         })
     }
+    isLoading.value = false
   })
 </script>
