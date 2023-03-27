@@ -43,6 +43,13 @@ export default {
         // },
       ],
     },
+    {
+      name: 'links',
+      displayName: 'Links úteis',
+      meta: {
+        icon: 'Link',
+      },
+    },
     // {
     //   name: 'forms',
     //   displayName: 'menu.forms',

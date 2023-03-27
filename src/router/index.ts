@@ -33,6 +33,12 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
       },
       {
+        name: 'links',
+        path: 'links',
+        component: () => import('../pages/Links.vue'),
+        props: true,
+      },
+      {
         name: 'statistics',
         path: 'statistics',
         component: RouteViewComponent,
