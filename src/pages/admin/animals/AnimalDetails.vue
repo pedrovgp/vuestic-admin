@@ -1,5 +1,6 @@
 ]
 <template>
+  <animal-dropdown :animal-id="animal?.id" />
   <va-card>
     <va-card-title>
       {{ t('animals.animalDetailsTitle') }}
@@ -32,6 +33,7 @@
   import { defineAsyncComponent, ref, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
   import AnimalApi from '../../../services/fam/fam'
+  import AnimalDropdown from './registry/AnimalDropdown.vue'
 
   const { t } = useI18n()
 
