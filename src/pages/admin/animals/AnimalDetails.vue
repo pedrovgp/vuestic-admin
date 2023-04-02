@@ -18,7 +18,7 @@
         </template>
       </va-tabs>
       <va-separator />
-      <component :is="tabs[activeTabName]" v-if="animalLoaded()" :animal="animal" @submit="submit" />
+      <component :is="tabs[activeTabName]" v-if="animalLoaded()" :key="animal" :animal="animal" @submit="submit" />
     </va-card-content>
   </va-card>
   <div>
@@ -26,7 +26,7 @@
       :animal-id="props.animalId"
       :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
       button-size="small"
-      @death-successfully-registered="onMounted"
+      @death-changed="fetchAnimal()"
     />
   </div>
 </template>
@@ -43,6 +43,7 @@
   import createApi from '../../../services/fam/fam'
   import AnimalDropdown from './registry/AnimalDropdown.vue'
   import DeathModal from './registry/DeathModal.vue'
+  import MainTab from './details-tabs/MainTab.vue'
 
   const { t } = useI18n()
 
@@ -57,12 +58,18 @@
     return animal.value != null
   }
 
-  onMounted(async () => {
+  async function fetchAnimal() {
+    console.log('fetchAnimal called')
     animal.value = await (await AnimalApi.get(parseInt(props.animalId))).data
+  }
+
+  onMounted(async () => {
+    fetchAnimal()
   })
 
   const tabs = {
-    MainTab: defineAsyncComponent(() => import('./details-tabs/MainTab.vue')),
+    MainTab: MainTab,
+    // MainTab: defineAsyncComponent(() => import('./details-tabs/MainTab.vue')),
     // BillingAddressTab: defineAsyncComponent(() => import('./details-tabs/BillingAddressTab.vue')),
     // BankDetailsTab: defineAsyncComponent(() => import('./details-tabs/BankDetailsTab.vue')),
   }

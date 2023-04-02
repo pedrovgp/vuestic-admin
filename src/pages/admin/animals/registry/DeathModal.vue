@@ -36,7 +36,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
 
   const DeathApi = createApi('morte')
   const { init, close, closeAll } = useToast()
-  const emit = defineEmits(['deathSuccessfullyRegisteredOrEdited'])
+  const emit = defineEmits(['deathChanged'])
 
   const props = defineProps<{
     animalId: string | number
@@ -101,6 +101,8 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     DeathApi.delete(deathId.value)
       .then((response: any) => {
         init({ message: 'Morte apagada. Animal consta novamente como vivo.', color: 'warning' })
+        showContent.value = false
+        emit('deathChanged')
       })
       .catch((error: any) => {
         console.log('error in deleteDeath')
@@ -133,7 +135,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       .then((response: any) => {
         console.log(response)
         init({ message: successToastMsg, color: 'success' })
-        emit('deathSuccessfullyRegisteredOrEdited')
+        emit('deathChanged')
       })
       .catch((error: any) => {
         console.log(error)
