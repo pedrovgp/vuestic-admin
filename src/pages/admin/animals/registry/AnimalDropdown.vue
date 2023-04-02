@@ -9,7 +9,7 @@ a form in a modal for registering the Death or Sale of the animal in context -->
     <va-dropdown-content>
       <va-list :fit="true">
         <va-list-item class="list__item">
-          <va-button color="danger" icon="Skull"> Morte </va-button>
+          <death-modal :animal-id="props.animalId" />
         </va-list-item>
         <va-list-separator :spaced="true" />
         <va-list-item class="list__item">
@@ -24,7 +24,18 @@ a form in a modal for registering the Death or Sale of the animal in context -->
   // Now this script should lazy load the modals above
   // Morte must have the fields: animal (automatically filled from the props.animalId), data, causa, obs
   // Venda must have the fields: animal (automatically filled from the props.animalId), data, valor, obs, comprador
+  import { defineAsyncComponent, ref } from 'vue'
+  import DeathModal from './DeathModal.vue'
+
   const props = defineProps<{
-    animalId?: string
+    animalId?: string | number
   }>()
+
+  // const deathModalComponent = defineAsyncComponent(() => import('./DeathModal.vue'))
+  // const showDeathModal = ref(false)
+
+  // function openDeathModal() {
+  //   console.log('openDeathModal')
+  //   showDeathModal.value = true
+  // }
 </script>

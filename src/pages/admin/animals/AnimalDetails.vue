@@ -1,6 +1,6 @@
 ]
 <template>
-  <animal-dropdown :animal-id="animal?.id" />
+  <!-- <animal-dropdown :animal-id="animal?.id" /> -->
   <va-card>
     <va-card-title>
       {{ t('animals.animalDetailsTitle') }}
@@ -21,6 +21,7 @@
       <component :is="tabs[activeTabName]" v-if="animalLoaded()" :animal="animal" @submit="submit" />
     </va-card-content>
   </va-card>
+  <div><death-modal :animal-id="props.animalId" :button-text="'Registrar morte'" /></div>
 </template>
 
 <script lang="ts">
@@ -34,6 +35,7 @@
   import { useI18n } from 'vue-i18n'
   import AnimalApi from '../../../services/fam/fam'
   import AnimalDropdown from './registry/AnimalDropdown.vue'
+  import DeathModal from './registry/DeathModal.vue'
 
   const { t } = useI18n()
 
