@@ -21,9 +21,9 @@ function createApi(modelName: string) {
     update({ id, data }: { id: string; data: any }) {
       return http.patch<any>(`/${modelName}/patch/${id}/`, data)
     },
-    //   delete(id: any) {
-    //     return http.delete<any>(`/tutorials/${id}`)
-    //   }
+    delete(id: any) {
+      return http.delete<any>(`/${modelName}/patch/${id}/`)
+    },
 
     //   deleteAll() {
     //     return http.delete<any>(`/tutorials`)

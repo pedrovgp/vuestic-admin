@@ -24,7 +24,7 @@
   <div>
     <death-modal
       :animal-id="props.animalId"
-      :button-text="'Registrar morte'"
+      :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
       button-size="small"
       @death-successfully-registered="onMounted"
     />

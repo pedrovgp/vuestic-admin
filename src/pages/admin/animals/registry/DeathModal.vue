@@ -19,7 +19,10 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
           <va-select v-model="cause" :options="causeOptions" label="Causa da morte" />
           <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" />
           <va-input v-model="obs" label="Observação (opcional)" />
-          <va-button type="submit" color="warning" :disabled="!formValid" @click="ok"> Salvar </va-button>
+          <va-button type="submit" color="success" :disabled="!formValid" @click="ok"> Salvar </va-button>
+          <va-button v-if="deathId != null" color="warning" :disabled="!formValid" @click="deleteDeath()">
+            Apagar registro de morte
+          </va-button>
         </va-card-content>
       </va-form>
     </template>
@@ -33,7 +36,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
 
   const DeathApi = createApi('morte')
   const { init, close, closeAll } = useToast()
-  const emit = defineEmits(['deathSuccessfullyRegistered'])
+  const emit = defineEmits(['deathSuccessfullyRegisteredOrEdited'])
 
   const props = defineProps<{
     animalId: string | number
@@ -49,6 +52,8 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   const obs = ref('')
   const formValid = ref(true)
   const showContent = ref(false)
+
+  const successToastMsg = 'Morte do animal registrada/atualizada com sucesso!'
 
   // Options for cause of death: NATURAL, DOENCA ou ACIDENTE
   const causeOptions = ['DOENCA', 'ACIDENTE', 'NATURAL']
@@ -88,7 +93,18 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       })
       .catch((error: any) => {
         console.log('error in getDeath')
-        console.log(error)
+      })
+  }
+
+  function deleteDeath() {
+    console.log('deleteDeath')
+    DeathApi.delete(deathId.value)
+      .then((response: any) => {
+        init({ message: 'Morte apagada. Animal consta novamente como vivo.', color: 'warning' })
+      })
+      .catch((error: any) => {
+        console.log('error in deleteDeath')
+        init({ message: error.response.data, color: 'danger' })
       })
   }
 
@@ -116,11 +132,10 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     DeathApi.upsert(death)
       .then((response: any) => {
         console.log(response)
-        init({ message: 'Morte registrada com sucesso', color: 'success' })
-        emit('deathSuccessfullyRegistered')
+        init({ message: successToastMsg, color: 'success' })
+        emit('deathSuccessfullyRegisteredOrEdited')
       })
       .catch((error: any) => {
-        console.log('error')
         console.log(error)
         init({ message: error.response.data, color: 'danger' })
       })
