@@ -1,5 +1,6 @@
-<!-- This component is a Vuestic va-select field
-which options fetch Animal objects from the backend through the rest API -->
+<!-- This component is a Vuestic va-input or va-date-input field, tied to
+an updateApi, fieldName and entityId. When updated, this field calls the 
+updateApi to update the given fieldName of the given entityId -->
 <template>
   <component
     :is="component"
