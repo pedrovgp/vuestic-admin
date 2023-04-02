@@ -21,7 +21,14 @@
       <component :is="tabs[activeTabName]" v-if="animalLoaded()" :animal="animal" @submit="submit" />
     </va-card-content>
   </va-card>
-  <div><death-modal :animal-id="props.animalId" :button-text="'Registrar morte'" /></div>
+  <div>
+    <death-modal
+      :animal-id="props.animalId"
+      :button-text="'Registrar morte'"
+      button-size="small"
+      @death-successfully-registered="onMounted"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,7 +40,7 @@
 <script setup lang="ts">
   import { defineAsyncComponent, ref, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import AnimalApi from '../../../services/fam/fam'
+  import createApi from '../../../services/fam/fam'
   import AnimalDropdown from './registry/AnimalDropdown.vue'
   import DeathModal from './registry/DeathModal.vue'
 
@@ -44,6 +51,7 @@
   }>()
 
   const animal: any = ref(null)
+  const AnimalApi = createApi('animal')
 
   function animalLoaded() {
     return animal.value != null

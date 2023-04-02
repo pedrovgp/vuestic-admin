@@ -23,8 +23,10 @@ which options fetch Animal objects from the backend through the rest API -->
 
 <script setup lang="ts">
   import { ref, Ref, watch, onMounted } from 'vue'
-  import AnimalApi from '../../../../services/fam/fam'
+  import createApi from '../../../../services/fam/fam'
   import debounce from 'lodash.debounce'
+
+  const AnimalApi = createApi('animal')
 
   const props = defineProps<{
     // The component can receive an animalId prop, which will be used to fetch the animal

@@ -44,10 +44,12 @@
 <script setup lang="ts">
   import { AgGridVue } from 'ag-grid-vue3' // the AG Grid Vue Component
   import { ref, watch, onMounted } from 'vue'
-  import AnimalApi from '../../../services/fam/fam'
+  import createApi from '../../../services/fam/fam'
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
+
+  const AnimalApi = createApi('animal')
 
   const items: any = ref([])
   const defaultAnimalFilter = ref(true)

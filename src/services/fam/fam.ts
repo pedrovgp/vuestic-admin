@@ -1,36 +1,33 @@
 import http from '../http-common'
 
-class AnimalsApi {
-  getAll(params: any) {
-    // Joins params with & and adds ? to the beginning
-    const query = new URLSearchParams(params).toString()
-    return http.get<Array<any>>(`/animals/?${query}`)
-  }
+// Generalize the above to a function that takes the model name and returns the api instance
+function createApi(modelName: string) {
+  return {
+    getAll(params: any) {
+      // Joins params with & and adds ? to the beginning
+      const query = new URLSearchParams(params).toString()
+      return http.get<Array<any>>(`/${modelName}/?${query}`)
+    },
+    get(id: number) {
+      return http.get<any>(`/${modelName}/${id}/`)
+    },
+    create(data: any) {
+      return http.post<any>(`/${modelName}/patch/`, data)
+    },
+    // upsert(data: any) {
+    //   return http.put<any>(`/${modelName}/patch/`, data)
+    // },
+    update({ id, data }: { id: string; data: any }) {
+      return http.patch<any>(`/${modelName}/patch/${id}/`, data)
+    },
+    //   delete(id: any) {
+    //     return http.delete<any>(`/tutorials/${id}`)
+    //   }
 
-  get(id: number) {
-    return http.get<any>(`/animals/${id}/`)
-  }
-
-  create(data: any) {
-    return http.post<any>('/animals', data)
-  }
-
-  query(q: string) {
-    return http.get<Array<any>>(`/animals/?q=${q}`)
-  }
-
-  //   delete(id: any) {
-  //     return http.delete<any>(`/tutorials/${id}`)
-  //   }
-
-  //   deleteAll() {
-  //     return http.delete<any>(`/tutorials`)
-  //   }
-
-  update({ id, data }: { id: string; data: any }) {
-    console.log(data)
-    return http.patch<any>(`/animals/patch/${id}/`, data)
+    //   deleteAll() {
+    //     return http.delete<any>(`/tutorials`)
+    //   }
   }
 }
 
-export default new AnimalsApi()
+export default createApi

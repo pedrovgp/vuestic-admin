@@ -2,7 +2,12 @@
   <div class="pt-2">
     <div class="row">
       <div class="flex sm12 md6">
-        <div class="title mb-3" :style="computedStylesTitle">Principal</div>
+        <div class="title mb-3" :style="computedStylesTitle">
+          <va-badge
+            :text="animal.vivo ? 'Animal vivo' : 'Animal morto'"
+            :color="animal.vivo ? colors.success : colors.error"
+          />
+        </div>
         <model-text-input
           :initial-value="animal.nome"
           :update-api="AnimalApi"
@@ -51,9 +56,6 @@
         />
       </div>
     </div>
-    <!-- <div class="row justify-center mb-3">
-      <va-button @click="submit"> Salvar alterações </va-button>
-    </div> -->
   </div>
 </template>
 
@@ -69,7 +71,9 @@
   import { useI18n } from 'vue-i18n'
   import AnimalSelect from '../form-fields/AnimalSelect.vue'
   import ModelTextInput from '../form-fields/ModelTextInput.vue'
-  import AnimalApi from '../../../../services/fam/fam'
+  import createApi from '../../../../services/fam/fam'
+
+  const AnimalApi = createApi('animal')
 
   const { colors } = useColors()
   const { t } = useI18n()
