@@ -14,9 +14,10 @@ function createApi(modelName: string) {
     create(data: any) {
       return http.post<any>(`/${modelName}/patch/`, data)
     },
-    // upsert(data: any) {
-    //   return http.put<any>(`/${modelName}/patch/`, data)
-    // },
+    upsert(data: any) {
+      if (data.id) return http.put<any>(`/${modelName}/patch/${data.id}/`, data)
+      return http.post<any>(`/${modelName}/patch/`, data)
+    },
     update({ id, data }: { id: string; data: any }) {
       return http.patch<any>(`/${modelName}/patch/${id}/`, data)
     },

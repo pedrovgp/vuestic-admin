@@ -12,6 +12,9 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       <va-card-title> Registrando a morte do animal </va-card-title>
       <va-form v-model="formValid" tag="form" @submit.prevent="submitForm">
         <va-card-content>
+          <div hidden="false">
+            <va-input v-model="deathId" :label="'deathId'" />
+          </div>
           <va-input v-model="animalId" :label="'animal'" :readonly="true" />
           <va-select v-model="cause" :options="causeOptions" label="Causa da morte" />
           <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" />
@@ -24,7 +27,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import createApi from '../../../../services/fam/fam'
   import { useToast } from 'vuestic-ui'
 
@@ -40,6 +43,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
 
   const animalId = ref(props.animalId)
   // Use todays date as default, converted to ISO string date format
+  const deathId = ref(null)
   const date = ref(new Date())
   const cause = ref('DOENCA')
   const obs = ref('')
@@ -54,35 +58,71 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   // ]
 
   function formatFn(date: any) {
-    return date.toISOString().split('T')[0]
+    if (date instanceof Date) {
+      return date.toISOString().split('T')[0]
+    }
+    return date
   }
 
   // Define Death type
   interface Death {
+    id: string | number | null
     idanimal: string | number
     data: Date
     causa: string
     obs: string
   }
 
+  // Funtion to get the death of the animal in context, if it exists and pre fill the form
+  function getDeath() {
+    console.log('getDeath')
+    console.log(animalId.value)
+    DeathApi.getAll({ idanimal: animalId.value })
+      .then((response: any) => {
+        console.log(response)
+        deathId.value = response.data[0].id
+        date.value = response.data[0].data
+        cause.value = response.data[0].causa
+        obs.value = response.data[0].obs
+        console.log(`deathId: ${deathId.value}`)
+      })
+      .catch((error: any) => {
+        console.log('error in getDeath')
+        console.log(error)
+      })
+  }
+
+  // Watch showContent and call getDeath whenever it changes to true
+  watch(showContent, (val) => {
+    if (val) {
+      getDeath()
+    }
+  })
+
+  // Function to submit the form
+
   async function submitForm() {
     console.log('submitForm')
+    console.log(date.value)
+    console.log(formatFn(date.value))
     const death: Death = {
+      id: deathId.value,
       idanimal: animalId.value,
       data: formatFn(date.value),
       causa: cause.value,
       obs: obs.value,
     }
     console.log(death)
-    DeathApi.create(death)
+    DeathApi.upsert(death)
       .then((response: any) => {
         console.log(response)
         init({ message: 'Morte registrada com sucesso', color: 'success' })
         emit('deathSuccessfullyRegistered')
       })
       .catch((error: any) => {
+        console.log('error')
         console.log(error)
-        init({ message: 'Erro ao registrar morte', color: 'danger' })
+        init({ message: error.response.data, color: 'danger' })
       })
   }
 </script>
