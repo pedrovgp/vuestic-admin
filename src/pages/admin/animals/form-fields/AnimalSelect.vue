@@ -4,6 +4,7 @@ which options fetch Animal objects from the backend through the rest API -->
   <va-select
     v-model="selectedOption"
     :label="props.label || 'Animal'"
+    :clearable="props.clearable"
     :options="options"
     :text-by="(option: any) => `${option.nome} - Br. ${option.brinco}`"
     :value-by="(option: any) => option.id"
@@ -15,6 +16,7 @@ which options fetch Animal objects from the backend through the rest API -->
     :success="fieldSuccess ? true : null"
     :messages="messages.values ? messages : null"
     @update-search="searchUpdated"
+    @clear="cleared"
     ><template #append>
       <va-button v-model="editable" :icon="editable ? 'clear' : 'edit'" class="mb-2" @click="editable = !editable">
       </va-button> </template
@@ -28,16 +30,21 @@ which options fetch Animal objects from the backend through the rest API -->
 
   const AnimalApi = createApi('animal')
 
-  const props = defineProps<{
-    // The component can receive an animalId prop, which will be used to fetch the animal
-    animalId?: number // The current value of the field, if any
-    label?: string // The label of the field, defaults to 'Animal'
-    updateApi: any // The API to update the related entity (for example, API to update Animal location)
-    updateFieldName: string // The field name to update in the related entity (ex.: 'animal_id')
-    updateEntityId: string // The id of the related entity to update (ex.: location_id)
-    successMessage?: string // The message to show when the update is successful
-    preFilter?: any // A pre-filter to apply to the options, executed on the backend
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      // The component can receive an animalId prop, which will be used to fetch the animal
+      animalId?: number // The current value of the field, if any
+      label?: string // The label of the field, defaults to 'Animal'
+      updateApi: any // The API to update the related entity (for example, API to update Animal location)
+      updateFieldName: string // The field name to update in the related entity (ex.: 'animal_id')
+      updateEntityId: string // The id of the related entity to update (ex.: location_id)
+      successMessage?: string // The message to show when the update is successful
+      preFilter?: any // A pre-filter to apply to the options, executed on the backend
+      onlineUpdates: boolean // Whether to update the backend when the field is edited
+      clearable: boolean // Whether the field is clearable (setable to null)
+    }>(),
+    { onlineUpdates: true, updateApi: createApi('animal'), clearable: false },
+  )
 
   const preFilter = props.preFilter || {}
 
@@ -58,6 +65,8 @@ which options fetch Animal objects from the backend through the rest API -->
   const editable: Ref<boolean> = ref(false)
   const messages: Ref<string[]> = ref([])
   const successMessage = props.successMessage !== undefined ? props.successMessage : 'Atualizado'
+
+  const emit = defineEmits(['selectedOptionIdChanged'])
 
   onMounted(() => {
     if (props.animalId) {
@@ -80,12 +89,15 @@ which options fetch Animal objects from the backend through the rest API -->
           fieldSuccess.value = informSuccess
           messages.value = informSuccess ? [successMessage] : []
           editable.value = false
+          emit('selectedOptionIdChanged', response.data.id)
         })
         .catch((error) => {
           fieldError.value = true
           errorMessages.value = [error]
           console.log(error)
         })
+    } else {
+      emit('selectedOptionIdChanged', null)
     }
   }
 
@@ -110,6 +122,10 @@ which options fetch Animal objects from the backend through the rest API -->
     isLoading.value = false
   }
 
+  function cleared() {
+    updateSelectedOption(null, true)
+  }
+
   watch(debouncedSearchTerm, fetchOptions)
 
   // selectedOption becomes a string, when selected, we must turn it back to an object
@@ -122,16 +138,20 @@ which options fetch Animal objects from the backend through the rest API -->
     console.log(`selectedOption changed from ${oldValue} to ${newValue}`)
     // const oldId = tempSelectedOption.value != null ? tempSelectedOption.value.id : null
     if (typeof newValue === 'number' || newValue == null) {
-      props.updateApi
-        .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue } })
-        .then((response: any) => {
-          console.log(response)
-          updateSelectedOption(newValue, true)
-        })
-        .catch((error: any) => {
-          console.log(error)
-          selectedOption.value = tempSelectedOption.value
-        })
+      if (props.onlineUpdates) {
+        props.updateApi
+          .update({ id: props.updateEntityId, data: { [props.updateFieldName]: newValue } })
+          .then((response: any) => {
+            console.log(response)
+            updateSelectedOption(newValue, true)
+          })
+          .catch((error: any) => {
+            console.log(error)
+            selectedOption.value = tempSelectedOption.value
+          })
+      } else {
+        updateSelectedOption(newValue, true)
+      }
     }
     isLoading.value = false
   })

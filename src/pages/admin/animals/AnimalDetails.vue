@@ -31,6 +31,16 @@
       @death-changed="fetchAnimal()"
     />
   </div>
+  <div>
+    <birth-modal
+      v-if="animal?.sexo == 'FEMEA'"
+      :key="animal"
+      :animal-id="props.animalId"
+      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+      button-text="Registrar cria"
+      button-size="small"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -45,6 +55,7 @@
   import createApi from '../../../services/fam/fam'
   import AnimalDropdown from './registry/AnimalDropdown.vue'
   import DeathModal from './registry/DeathModal.vue'
+  import BirthModal from './registry/BirthModal.vue'
   import MainTab from './details-tabs/MainTab.vue'
 
   const { t } = useI18n()
