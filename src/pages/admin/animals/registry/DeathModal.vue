@@ -9,13 +9,13 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   </va-button>
   <va-modal v-model="showContent">
     <template #content="{ ok }">
-      <va-card-title> Registrando a morte do animal </va-card-title>
+      <va-card-title> Registrando a morte de: {{ props.animalText }} </va-card-title>
       <va-form v-model="formValid" tag="form" @submit.prevent="submitForm">
         <va-card-content>
           <div hidden="false">
             <va-input v-model="deathId" :label="'deathId'" />
+            <va-input v-model="animalId" :label="'animal'" :readonly="true" />
           </div>
-          <va-input v-model="animalId" :label="'animal'" :readonly="true" />
           <va-select v-model="cause" :options="causeOptions" label="Causa da morte" />
           <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" />
           <va-input v-model="obs" label="Observação (opcional)" />
@@ -42,6 +42,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     animalId: string | number
     buttonText?: string
     buttonSize?: string
+    animalText?: string
   }>()
 
   const animalId = ref(props.animalId)

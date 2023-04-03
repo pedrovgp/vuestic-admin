@@ -23,7 +23,9 @@
   </va-card>
   <div>
     <death-modal
+      :key="animal"
       :animal-id="props.animalId"
+      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
       :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
       button-size="small"
       @death-changed="fetchAnimal()"
