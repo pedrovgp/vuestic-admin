@@ -14,7 +14,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     {{ props.buttonText || 'Morte' }}
   </va-button>
   <va-modal v-model="showContent">
-    <template #content="{ ok }">
+    <template #content="{}">
       <va-card-title> Registrando nova cria da vaca: {{ props.animalText }}</va-card-title>
       <va-form ref="form" v-model="formValid" tag="form" @submit.prevent="submitForm">
         <va-card-content>
@@ -113,6 +113,13 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     formValid.value = form.value.validate()
   }
 
+  function translateError(error: any) {
+    if (error?.non_field_errors[0] == 'Os campos idmae, datanascimento devem criar um set único.') {
+      return 'Animal já possui uma cria registrada nessa data'
+    }
+    return error.response.data
+  }
+
   // Define Death type
   interface Birth {
     idmae: string | number
@@ -148,7 +155,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       })
       .catch((error: any) => {
         console.log(error)
-        init({ message: error.response.data, color: 'danger' })
+        init({ message: translateError(error.response.data), color: 'danger' })
         return false
       })
   }
