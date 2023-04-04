@@ -4,7 +4,13 @@ the backend API to check if such a death exists (if so, it renders the form popu
 If it does not, it pre fills some fields (like animalId, date with todays date) -->
 
 <template>
-  <va-button color="danger" icon="Skull" :size="props.buttonSize || 'small'" @click="showContent = !showContent">
+  <va-button
+    color="danger"
+    icon="Skull"
+    :size="props.buttonSize || 'small'"
+    class="mt-3"
+    @click="showContent = !showContent"
+  >
     {{ props.buttonText || 'Morte' }}
   </va-button>
   <va-modal v-model="showContent">

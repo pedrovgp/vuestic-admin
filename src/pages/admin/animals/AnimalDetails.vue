@@ -21,26 +21,22 @@
       <component :is="tabs[activeTabName]" v-if="animalLoaded()" :key="animal" :animal="animal" @submit="submit" />
     </va-card-content>
   </va-card>
-  <div>
-    <death-modal
-      :key="animal"
-      :animal-id="props.animalId"
-      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
-      :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
-      button-size="small"
-      @death-changed="fetchAnimal()"
-    />
-  </div>
-  <div>
-    <birth-modal
-      v-if="animal?.sexo == 'FEMEA'"
-      :key="animal"
-      :animal-id="props.animalId"
-      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
-      button-text="Registrar cria"
-      button-size="small"
-    />
-  </div>
+  <birth-modal
+    v-if="animal?.sexo == 'FEMEA'"
+    :key="animal"
+    :animal-id="props.animalId"
+    :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+    button-text="Registrar cria"
+    button-size="small"
+  />
+  <death-modal
+    :key="animal"
+    :animal-id="props.animalId"
+    :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+    :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
+    button-size="small"
+    @death-changed="fetchAnimal()"
+  />
 </template>
 
 <script lang="ts">
