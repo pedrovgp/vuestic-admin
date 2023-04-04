@@ -37,6 +37,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
               :rules="datanascimentoValidationRules"
             />
           </div>
+          <va-input v-model="nome" label="Nome (opcional, será dado automaticamente)" class="mt-3" />
           <va-input v-model="brinco" label="Brinco da cria (opcional)" class="mt-3" />
           <va-input v-model="obs" label="Observação (opcional)" class="mt-3" />
           <va-input v-model="idpai" label="Pai" :readonly="true" class="mt-3" />
@@ -80,6 +81,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   const animalId = ref(props.animalId)
   // Use todays date as default, converted to ISO string date format
   const datanascimento = ref(null)
+  const nome = ref(null)
   const sexo = ref(null)
   const brinco = ref(null)
   const paiAnimalSelect = ref()
@@ -130,6 +132,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     idmae: string | number
     datanascimento: string
     sexo: string | null
+    nome: string | null
     brinco: string | null
     idpai: string | number | null
     obs: string | null
@@ -143,6 +146,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       idmae: animalId.value,
       datanascimento: formatFn(datanascimento.value),
       sexo: sexo.value,
+      nome: nome.value,
       brinco: brinco.value,
       idpai: idpai.value,
       obs: obs.value,
