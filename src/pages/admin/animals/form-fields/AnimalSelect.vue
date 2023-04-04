@@ -43,7 +43,15 @@ which options fetch Animal objects from the backend through the rest API -->
       onlineUpdates: boolean // Whether to update the backend when the field is edited
       clearable: boolean // Whether the field is clearable (setable to null)
     }>(),
-    { onlineUpdates: true, updateApi: createApi('animal'), clearable: false },
+    {
+      animalId: undefined,
+      label: 'Animal',
+      successMessage: 'Atualizado',
+      preFilter: {},
+      onlineUpdates: true,
+      updateApi: createApi('animal'),
+      clearable: false,
+    },
   )
 
   const preFilter = props.preFilter || {}

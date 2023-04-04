@@ -24,11 +24,10 @@ a form in a modal for registering the Death or Sale of the animal in context -->
   // Now this script should lazy load the modals above
   // Morte must have the fields: animal (automatically filled from the props.animalId), data, causa, obs
   // Venda must have the fields: animal (automatically filled from the props.animalId), data, valor, obs, comprador
-  import { defineAsyncComponent, ref } from 'vue'
   import DeathModal from './DeathModal.vue'
 
   const props = defineProps<{
-    animalId?: string | number
+    animalId: string | number
   }>()
 
   // const deathModalComponent = defineAsyncComponent(() => import('./DeathModal.vue'))

@@ -50,7 +50,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
             :pre-filter="{ sexo: 'MACHO' }"
             :online-updates="false"
             class="mt-3"
-            @selected-option-id-changed="(id) => (idpai = id)"
+            @selected-option-id-changed="(id: any) => (idpai = id)"
           />
           <va-button type="submit" color="success" class="mt-3" @click="validateForm()"> Salvar </va-button>
           <va-button class="mb-3" @click="validateForm()"> Validate: {{ formValid }} </va-button>
@@ -61,13 +61,13 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { ref } from 'vue'
   import createApi from '../../../../services/fam/fam'
   import { useToast } from 'vuestic-ui'
   import AnimalSelect from '../form-fields/AnimalSelect.vue'
 
   const AnimalApi = createApi('animal')
-  const { init, close, closeAll } = useToast()
+  const { init } = useToast()
   const emit = defineEmits(['birthCreated'])
 
   const props = defineProps<{
@@ -114,10 +114,15 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   }
 
   function translateError(error: any) {
-    if (error?.non_field_errors[0] == 'Os campos idmae, datanascimento devem criar um set único.') {
-      return 'Animal já possui uma cria registrada nessa data'
+    try {
+      const data = error.response.data
+      if (data?.non_field_errors[0] == 'Os campos idmae, datanascimento devem criar um set único.') {
+        return 'Animal já possui uma cria registrada nessa data'
+      }
+      return error.response.data
+    } catch (e) {
+      return error
     }
-    return error.response.data
   }
 
   // Define Death type
@@ -155,7 +160,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       })
       .catch((error: any) => {
         console.log(error)
-        init({ message: translateError(error.response.data), color: 'danger' })
+        init({ message: translateError(error), color: 'danger' })
         return false
       })
   }

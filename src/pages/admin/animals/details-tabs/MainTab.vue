@@ -66,9 +66,8 @@
 </script>
 
 <script setup lang="ts">
-  import { computed, reactive, ref, watch } from 'vue'
+  import { computed, ref } from 'vue'
   import { useColors } from 'vuestic-ui'
-  import { useI18n } from 'vue-i18n'
   import AnimalSelect from '../form-fields/AnimalSelect.vue'
   import ModelTextInput from '../form-fields/ModelTextInput.vue'
   import createApi from '../../../../services/fam/fam'
@@ -76,7 +75,6 @@
   const AnimalApi = createApi('animal')
 
   const { colors } = useColors()
-  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{
@@ -89,24 +87,7 @@
 
   const animal = ref(props.animal)
 
-  const emit = defineEmits<{
-    (e: 'submit', data: typeof form): void
-  }>()
-
-  const form = reactive({
-    name: 'John Smith',
-    email: 'smith@gmail.com',
-    address: '93  Guild Street',
-    city: { text: 'London' },
-    country: 'United Kingdom',
-    connection: true,
-  })
-
   const computedStylesTitle = computed(() => ({ color: colors.dark }))
-
-  function submit() {
-    emit('submit', form)
-  }
 </script>
 
 <style lang="scss" scoped>

@@ -41,7 +41,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   import { useToast } from 'vuestic-ui'
 
   const DeathApi = createApi('morte')
-  const { init, close, closeAll } = useToast()
+  const { init } = useToast()
   const emit = defineEmits(['deathChanged'])
 
   const props = defineProps<{
@@ -100,6 +100,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       })
       .catch((error: any) => {
         console.log('error in getDeath')
+        console.log(error)
       })
   }
 
@@ -109,7 +110,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       .then((response: any) => {
         init({ message: 'Morte apagada. Animal consta novamente como vivo.', color: 'warning' })
         showContent.value = false
-        emit('deathChanged')
+        emit('deathChanged', response)
       })
       .catch((error: any) => {
         console.log('error in deleteDeath')

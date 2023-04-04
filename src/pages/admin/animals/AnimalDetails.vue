@@ -46,10 +46,10 @@
 </script>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, ref, onMounted } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
   import createApi from '../../../services/fam/fam'
-  import AnimalDropdown from './registry/AnimalDropdown.vue'
+  // import AnimalDropdown from './registry/AnimalDropdown.vue'
   import DeathModal from './registry/DeathModal.vue'
   import BirthModal from './registry/BirthModal.vue'
   import MainTab from './details-tabs/MainTab.vue'
