@@ -16,10 +16,10 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
             <va-input v-model="deathId" :label="'deathId'" />
             <va-input v-model="animalId" :label="'animal'" :readonly="true" />
           </div>
-          <va-select v-model="cause" :options="causeOptions" label="Causa da morte" />
-          <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" />
-          <va-input v-model="obs" label="Observação (opcional)" />
-          <va-button type="submit" color="success" :disabled="!formValid" @click="ok"> Salvar </va-button>
+          <va-select v-model="cause" :options="causeOptions" label="Causa da morte" class="mt-3" />
+          <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" class="mt-3" />
+          <va-input v-model="obs" label="Observação (opcional)" class="mt-3" />
+          <va-button type="submit" color="success" :disabled="!formValid" class="mt-3" @click="ok"> Salvar </va-button>
           <va-button v-if="deathId != null" color="warning" :disabled="!formValid" @click="deleteDeath()">
             Apagar registro de morte
           </va-button>
@@ -48,7 +48,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   const animalId = ref(props.animalId)
   // Use todays date as default, converted to ISO string date format
   const deathId = ref(null)
-  const date = ref(new Date())
+  const date = ref(null)
   const cause = ref('DOENCA')
   const obs = ref('')
   const formValid = ref(true)
@@ -141,6 +141,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       .catch((error: any) => {
         console.log(error)
         init({ message: error.response.data, color: 'danger' })
+        return false
       })
   }
 </script>
