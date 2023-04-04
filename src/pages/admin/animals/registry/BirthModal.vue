@@ -4,61 +4,63 @@ the backend API to check if such a death exists (if so, it renders the form popu
 If it does not, it pre fills some fields (like animalId, date with todays date) -->
 
 <template>
-  <va-button
-    color="success"
-    icon="Child care"
-    :size="props.buttonSize || 'small'"
-    class="mt-3"
-    @click="showContent = !showContent"
-  >
-    {{ props.buttonText || 'Morte' }}
-  </va-button>
-  <va-modal v-model="showContent">
-    <template #content="{}">
-      <va-card-title> Registrando nova cria da vaca: {{ props.animalText }}</va-card-title>
-      <va-form ref="form" v-model="formValid" tag="form" @submit.prevent="submitForm">
-        <va-card-content>
-          <div hidden="false">
-            <va-input v-model="animalId" :label="'Mãe'" :readonly="true" />
-          </div>
-          <va-select
-            v-model="sexo"
-            class="mt-3"
-            :options="sexoOptions"
-            label="Sexo da cria"
-            :rules="[(value: string | any[]) => (value && value.length > 0) || 'Field is required']"
-          />
-          <div>
-            <va-date-input
-              v-model="datanascimento"
+  <div>
+    <va-button
+      color="success"
+      icon="child_care"
+      :size="props.buttonSize || 'small'"
+      class="mt-3"
+      @click="showContent = !showContent"
+    >
+      {{ props.buttonText || 'Morte' }}
+    </va-button>
+    <va-modal v-model="showContent">
+      <template #content="{}">
+        <va-card-title> Registrando nova cria da vaca: {{ props.animalText }}</va-card-title>
+        <va-form ref="form" v-model="formValid" tag="form" @submit.prevent="submitForm">
+          <va-card-content>
+            <div hidden="false">
+              <va-input v-model="animalId" :label="'Mãe'" :readonly="true" />
+            </div>
+            <va-select
+              v-model="sexo"
               class="mt-3"
-              label="Quando nasceu (ANO-MÊS-DIA)"
-              :format="formatFn"
-              :rules="datanascimentoValidationRules"
+              :options="sexoOptions"
+              label="Sexo da cria"
+              :rules="[(value: string | any[]) => (value && value.length > 0) || 'Field is required']"
             />
-          </div>
-          <va-input v-model="nome" label="Nome (opcional, será dado automaticamente)" class="mt-3" />
-          <va-input v-model="brinco" label="Brinco da cria (opcional)" class="mt-3" />
-          <va-input v-model="obs" label="Observação (opcional)" class="mt-3" />
-          <va-input v-model="idpai" label="Pai" :readonly="true" class="mt-3" />
-          <animal-select
-            ref="paiAnimalSelect"
-            :label="'Pai'"
-            update-field-name="idpai"
-            update-entity-id="null"
-            :clearable="true"
-            :success-message="'Pai selecionado com sucesso'"
-            :pre-filter="{ sexo: 'MACHO' }"
-            :online-updates="false"
-            class="mt-3"
-            @selected-option-id-changed="(id: any) => (idpai = id)"
-          />
-          <va-button type="submit" color="success" class="mt-3" @click="validateForm()"> Salvar </va-button>
-          <va-button class="mb-3" @click="validateForm()"> Validate: {{ formValid }} </va-button>
-        </va-card-content>
-      </va-form>
-    </template>
-  </va-modal>
+            <div>
+              <va-date-input
+                v-model="datanascimento"
+                class="mt-3"
+                label="Quando nasceu (ANO-MÊS-DIA)"
+                :format="formatFn"
+                :rules="datanascimentoValidationRules"
+              />
+            </div>
+            <va-input v-model="nome" label="Nome (opcional, será dado automaticamente)" class="mt-3" />
+            <va-input v-model="brinco" label="Brinco da cria (opcional)" class="mt-3" />
+            <va-input v-model="obs" label="Observação (opcional)" class="mt-3" />
+            <va-input v-model="idpai" label="Pai" :readonly="true" class="mt-3" />
+            <animal-select
+              ref="paiAnimalSelect"
+              :label="'Pai'"
+              update-field-name="idpai"
+              update-entity-id="null"
+              :clearable="true"
+              :success-message="'Pai selecionado com sucesso'"
+              :pre-filter="{ sexo: 'MACHO' }"
+              :online-updates="false"
+              class="mt-3"
+              @selected-option-id-changed="(id: any) => (idpai = id)"
+            />
+            <va-button type="submit" color="success" class="mt-3" @click="validateForm()"> Salvar </va-button>
+            <va-button class="mb-3" @click="validateForm()"> Validate: {{ formValid }} </va-button>
+          </va-card-content>
+        </va-form>
+      </template>
+    </va-modal>
+  </div>
 </template>
 
 <script setup lang="ts">

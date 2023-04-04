@@ -4,35 +4,39 @@ the backend API to check if such a death exists (if so, it renders the form popu
 If it does not, it pre fills some fields (like animalId, date with todays date) -->
 
 <template>
-  <va-button
-    color="danger"
-    icon="Skull"
-    :size="props.buttonSize || 'small'"
-    class="mt-3"
-    @click="showContent = !showContent"
-  >
-    {{ props.buttonText || 'Morte' }}
-  </va-button>
-  <va-modal v-model="showContent">
-    <template #content="{ ok }">
-      <va-card-title> Registrando a morte de: {{ props.animalText }} </va-card-title>
-      <va-form v-model="formValid" tag="form" @submit.prevent="submitForm">
-        <va-card-content>
-          <div hidden="false">
-            <va-input v-model="deathId" :label="'deathId'" />
-            <va-input v-model="animalId" :label="'animal'" :readonly="true" />
-          </div>
-          <va-select v-model="cause" :options="causeOptions" label="Causa da morte" class="mt-3" />
-          <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" class="mt-3" />
-          <va-input v-model="obs" label="Observação (opcional)" class="mt-3" />
-          <va-button type="submit" color="success" :disabled="!formValid" class="mt-3" @click="ok"> Salvar </va-button>
-          <va-button v-if="deathId != null" color="warning" :disabled="!formValid" @click="deleteDeath()">
-            Apagar registro de morte
-          </va-button>
-        </va-card-content>
-      </va-form>
-    </template>
-  </va-modal>
+  <div>
+    <va-button
+      color="danger"
+      icon="skull"
+      :size="props.buttonSize || 'small'"
+      class="mt-3"
+      @click="showContent = !showContent"
+    >
+      {{ props.buttonText || 'Morte' }}
+    </va-button>
+    <va-modal v-model="showContent">
+      <template #content="{ ok }">
+        <va-card-title> Registrando a morte de: {{ props.animalText }} </va-card-title>
+        <va-form v-model="formValid" tag="form" @submit.prevent="submitForm">
+          <va-card-content>
+            <div hidden="false">
+              <va-input v-model="deathId" :label="'deathId'" />
+              <va-input v-model="animalId" :label="'animal'" :readonly="true" />
+            </div>
+            <va-select v-model="cause" :options="causeOptions" label="Causa da morte" class="mt-3" />
+            <va-date-input v-model="date" label="Data da morte (ANO-MÊS-DIA)" :format="formatFn" class="mt-3" />
+            <va-input v-model="obs" label="Observação (opcional)" class="mt-3" />
+            <va-button type="submit" color="success" :disabled="!formValid" class="mt-3" @click="ok">
+              Salvar
+            </va-button>
+            <va-button v-if="deathId != null" color="warning" :disabled="!formValid" @click="deleteDeath()">
+              Apagar registro de morte
+            </va-button>
+          </va-card-content>
+        </va-form>
+      </template>
+    </va-modal>
+  </div>
 </template>
 
 <script setup lang="ts">

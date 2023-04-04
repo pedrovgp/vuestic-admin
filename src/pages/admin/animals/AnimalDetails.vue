@@ -1,6 +1,6 @@
 ]
 <template>
-  <!-- <animal-dropdown :animal-id="animal?.id" /> -->
+  <!-- <animal-dropdown v-if="animal != null" :key="animal" :animal="animal" /> -->
   <va-card>
     <va-card-title>
       {{ t('animals.animalDetailsTitle') }}
