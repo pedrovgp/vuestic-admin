@@ -50,6 +50,13 @@ export default {
         icon: 'Link',
       },
     },
+    {
+      name: 'comments',
+      displayName: 'Comentários',
+      meta: {
+        icon: 'chat',
+      },
+    },
     // {
     //   name: 'forms',
     //   displayName: 'menu.forms',

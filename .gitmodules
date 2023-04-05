@@ -1,0 +1,3 @@
+[submodule "src/apps/interactive-comments-section"]
+	path = src/apps/interactive-comments-section
+	url = git@github.com:pedrovgp/interactive-comments-section.git
