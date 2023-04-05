@@ -8,9 +8,21 @@
           :color="colors.primary"
           @click="isSidebarMinimized = !isSidebarMinimized"
         />
-        <!-- <div class="app-navbar-center"> -->
-        <span class="va-icon-vuestic">BREVE: busca de animais</span>
-        <!-- </div> -->
+        <div class="app-navbar-center">
+          <animal-select
+            ref="navAnimalSelect"
+            label="Buscar um animal"
+            update-field-name="null"
+            update-entity-id="null"
+            :clearable="true"
+            success-message="Animal selecionado"
+            placeholder-text="Digite nome ou brinco"
+            :online-updates="false"
+            :always-editable="true"
+            class="mt-3"
+            @selected-option-id-changed="(id: any) => goToAnimal(id)"
+          />
+        </div>
       </div>
     </template>
     <template #center> </template>
@@ -20,13 +32,15 @@
   </va-navbar>
 </template>
 
-<script setup>
+<script setup lang="ts">
+  import { useRouter } from 'vue-router'
   import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useGlobalStore } from '../../stores/global-store'
   import { useColors } from 'vuestic-ui'
   import VaIconMenuCollapsed from '../icons/VaIconMenuCollapsed.vue'
   import AppNavbarActions from './components/AppNavbarActions.vue'
+  import AnimalSelect from '../../pages/admin/animals/form-fields/AnimalSelect.vue'
 
   const GlobalStore = useGlobalStore()
 
@@ -34,6 +48,14 @@
 
   const { getColors } = useColors()
   const colors = computed(() => getColors())
+  const router = useRouter()
+
+  async function goToAnimal(id: any) {
+    if (id) {
+      router.push({ name: 'animalsDetails', params: { animalId: id } })
+      router.go(0)
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

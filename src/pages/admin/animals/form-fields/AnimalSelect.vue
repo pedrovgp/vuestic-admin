@@ -1,5 +1,7 @@
 <!-- This component is a Vuestic va-select field
-which options fetch Animal objects from the backend through the rest API -->
+which options fetch Animal objects from the backend through the rest API
+TODO: colorize different options to show if they are in estância suzana, or alive/dead
+-->
 <template>
   <va-select
     v-model="selectedOption"
@@ -9,8 +11,9 @@ which options fetch Animal objects from the backend through the rest API -->
     :text-by="(option: any) => `${option.nome} - Br. ${option.brinco}`"
     :value-by="(option: any) => option.id"
     :loading="isLoading"
-    :readonly="!editable"
+    :readonly="props.alwaysEditable ? false : !editable"
     searchable
+    :search-placeholder-text="props.placeholderText"
     :error="fieldError ? true : null"
     :error-messages="errorMessages.values ? errorMessages : null"
     :success="fieldSuccess ? true : null"
@@ -18,7 +21,13 @@ which options fetch Animal objects from the backend through the rest API -->
     @update-search="searchUpdated"
     @clear="cleared"
     ><template #append>
-      <va-button v-model="editable" :icon="editable ? 'clear' : 'edit'" class="mb-2" @click="editable = !editable">
+      <va-button
+        v-if="!props.alwaysEditable"
+        v-model="editable"
+        :icon="editable ? 'clear' : 'edit'"
+        class="mb-2"
+        @click="editable = !editable"
+      >
       </va-button> </template
   ></va-select>
 </template>
@@ -42,6 +51,8 @@ which options fetch Animal objects from the backend through the rest API -->
       preFilter?: any // A pre-filter to apply to the options, executed on the backend
       onlineUpdates: boolean // Whether to update the backend when the field is edited
       clearable: boolean // Whether the field is clearable (setable to null)
+      placeholderText: string // The placeholder text to show when the field is empty
+      alwaysEditable: boolean // Whether the field is always editable (if true, hides the edit button)
     }>(),
     {
       animalId: undefined,
@@ -51,6 +62,8 @@ which options fetch Animal objects from the backend through the rest API -->
       onlineUpdates: true,
       updateApi: createApi('animal'),
       clearable: false,
+      placeholderText: '',
+      alwaysEditable: false,
     },
   )
 
