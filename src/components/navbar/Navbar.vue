@@ -10,7 +10,7 @@
         />
         <div class="app-navbar-center">
           <animal-select
-            ref="navAnimalSelect"
+            :key="reloadAnimalSelect"
             label="Buscar um animal"
             update-field-name="null"
             update-entity-id="null"
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
   import { useRouter } from 'vue-router'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useGlobalStore } from '../../stores/global-store'
   import { useColors } from 'vuestic-ui'
@@ -50,10 +50,12 @@
   const colors = computed(() => getColors())
   const router = useRouter()
 
+  const reloadAnimalSelect = ref(0)
+
   async function goToAnimal(id: any) {
     if (id) {
       router.push({ name: 'animalsDetails', params: { animalId: id } })
-      router.go(0)
+      ++reloadAnimalSelect.value
     }
   }
 </script>

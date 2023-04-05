@@ -15,7 +15,7 @@
       </div>
       <div class="app-layout__page">
         <div class="layout fluid va-gutter-5">
-          <router-view />
+          <router-view :key="$route.path" />
         </div>
       </div>
     </div>
