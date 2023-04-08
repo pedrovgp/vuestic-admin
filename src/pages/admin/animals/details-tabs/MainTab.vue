@@ -54,6 +54,14 @@
           :success-message="'Pai atualizado com sucesso'"
           :pre-filter="{ sexo: 'MACHO' }"
         />
+        <model-text-input
+          :initial-value="animal.obs"
+          :update-api="AnimalApi"
+          update-field-name="obs"
+          :update-entity-id="animal.id.toString()"
+          label="Observação"
+          success-message="Observação atualizada com sucesso"
+        />
       </div>
     </div>
   </div>
