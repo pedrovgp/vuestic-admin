@@ -34,7 +34,7 @@ TODO: colorize different options to show if they are in estância suzana, or ali
 
 <script setup lang="ts">
   import { ref, Ref, watch, onMounted } from 'vue'
-  import createApi from '../../../../services/fam/fam'
+  import { createApi } from '../../../../services/fam/fam'
   import debounce from 'lodash.debounce'
 
   const AnimalApi = createApi('animal')
