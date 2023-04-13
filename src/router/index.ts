@@ -39,6 +39,12 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
       },
       {
+        name: 'comments',
+        path: 'comments',
+        component: () => import('../apps/interactive-comments-section/src/App.vue'),
+        props: true,
+      },
+      {
         name: 'statistics',
         path: 'statistics',
         component: RouteViewComponent,

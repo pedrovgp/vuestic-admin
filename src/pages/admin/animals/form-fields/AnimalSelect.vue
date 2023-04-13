@@ -34,7 +34,7 @@ TODO: colorize different options to show if they are in estância suzana, or ali
 
 <script setup lang="ts">
   import { ref, Ref, watch, onMounted } from 'vue'
-  import createApi from '../../../../services/fam/fam'
+  import { createApi } from '../../../../services/fam/fam'
   import debounce from 'lodash.debounce'
 
   const AnimalApi = createApi('animal')
@@ -44,7 +44,7 @@ TODO: colorize different options to show if they are in estância suzana, or ali
       // The component can receive an animalId prop, which will be used to fetch the animal
       animalId?: number // The current value of the field, if any
       label?: string // The label of the field, defaults to 'Animal'
-      updateApi: any // The API to update the related entity (for example, API to update Animal location)
+      updateApi?: any // The API to update the related entity (for example, API to update Animal location)
       updateFieldName: string // The field name to update in the related entity (ex.: 'animal_id')
       updateEntityId: string // The id of the related entity to update (ex.: location_id)
       successMessage?: string // The message to show when the update is successful

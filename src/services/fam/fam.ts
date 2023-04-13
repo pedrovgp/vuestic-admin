@@ -12,17 +12,17 @@ function createApi(modelName: string) {
       return http.get<any>(`/${modelName}/${id}/`)
     },
     create(data: any) {
-      return http.post<any>(`/${modelName}/patch/`, data)
+      return http.post<any>(`/${modelName}/`, data)
     },
     upsert(data: any) {
-      if (data.id) return http.put<any>(`/${modelName}/patch/${data.id}/`, data)
-      return http.post<any>(`/${modelName}/patch/`, data)
+      if (data.id) return http.put<any>(`/${modelName}/${data.id}/`, data)
+      return http.post<any>(`/${modelName}/`, data)
     },
     update({ id, data }: { id: string; data: any }) {
-      return http.patch<any>(`/${modelName}/patch/${id}/`, data)
+      return http.patch<any>(`/${modelName}/${id}/`, data)
     },
     delete(id: any) {
-      return http.delete<any>(`/${modelName}/patch/${id}/`)
+      return http.delete<any>(`/${modelName}/${id}/`)
     },
 
     //   deleteAll() {
@@ -31,4 +31,5 @@ function createApi(modelName: string) {
   }
 }
 
+export { createApi }
 export default createApi

@@ -31,6 +31,7 @@
     "epic-spinners": "^2.0.0",
     "flag-icons": "^6.6.4",
     "ionicons": "^4.6.3",
+    "javascript-time-ago": "^2.5.9",
     "leaflet": "^1.8.0",
     "leaflet-map": "^0.2.1",
     "lodash.debounce": "^4.0.8",
