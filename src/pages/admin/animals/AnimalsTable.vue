@@ -49,6 +49,7 @@
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
   import Vivo from './cell-renderers/Vivo.vue'
+  import CheckIn from './cell-renderers/CheckIn.vue'
 
   const AnimalApi = createApi('animal')
 
@@ -147,7 +148,8 @@
       suppressSizeToFit: true,
       ...defaultColumnFilter,
     },
-    { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo' },
+    { field: 'checkin', sortingOrder: ['asc', 'desc'], headerName: 'Na fazenda?', cellRenderer: CheckIn },
+    { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo', ...defaultColumnFilter },
     {
       field: 'idmae',
       headerName: 'Mãe',
