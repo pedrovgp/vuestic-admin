@@ -25,6 +25,13 @@ function createApi(modelName: string) {
       return http.delete<any>(`/${modelName}/${id}/`)
     },
 
+    makeCheckIn(id: any, checkIn: boolean) {
+      if (modelName != 'animal') {
+        throw new Error('make_check_in only works for animal API')
+      }
+      return http.patch<any>(`/${modelName}/${id}/check_in/`, { check_in: checkIn })
+    },
+
     //   deleteAll() {
     //     return http.delete<any>(`/tutorials`)
     //   }

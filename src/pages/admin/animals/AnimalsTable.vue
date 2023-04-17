@@ -3,12 +3,8 @@
   <va-alert class="mt-3" color="info" outline>
     <span>
       Mostrando animais
-      <va-button
-        v-model="defaultAnimalFilter"
-        :disabled="loading ? true : null"
-        size="small"
-        @click="defaultAnimalFilter = !defaultAnimalFilter"
-        >{{ defaultAnimalFilter ? 'vivos na estância Suzana' : 'todos já registrados' }}
+      <va-button v-model="defaultAnimalFilter" :disabled="loading ? true : null" size="small" @click="nextFilter()"
+        >{{ defaultFilters[defaultAnimalFilter] }}
       </va-button>
       <p v-if="!loading">{{ items.length }} no total.</p>
       <p v-else>Carregando...</p>
@@ -54,8 +50,19 @@
   const AnimalApi = createApi('animal')
 
   const items: any = ref([])
-  const defaultAnimalFilter = ref(true)
+  const defaultFilters = {
+    default_animal_filter: 'vivos na estância Suzana',
+    0: 'todos já registrados',
+    default_animal_filter_checked_out: 'a averiguar (morte ou venda?)',
+  }
+  const defaultAnimalFilter = ref('default_animal_filter')
   const loading = ref(true)
+
+  function nextFilter() {
+    const keys = Object.keys(defaultFilters)
+    const index = keys.indexOf(defaultAnimalFilter.value)
+    defaultAnimalFilter.value = keys[(index + 1) % keys.length]
+  }
 
   // in onGridReady, store the api for later use
   // Obtain API from grid's onGridReady event
@@ -74,7 +81,7 @@
   function updateTableItems() {
     loading.value = true
     if (gridApi.value != null) gridApi.value.showLoadingOverlay()
-    AnimalApi.getAll(defaultAnimalFilter.value ? { default_animal_filter: '1' } : {})
+    AnimalApi.getAll(defaultAnimalFilter.value ? { [defaultAnimalFilter.value]: '1' } : {})
       .then((response) => {
         items.value = response.data
         loading.value = false

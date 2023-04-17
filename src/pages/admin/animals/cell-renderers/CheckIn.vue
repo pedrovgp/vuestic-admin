@@ -7,8 +7,8 @@
       <va-card-title> Check In de: {{ params.data.nome }} - Br. {{ params.data.brinco }} </va-card-title>
       <va-card-content> {{ params.data.nome }} - Br. {{ params.data.brinco }} está na fazenda hoje? </va-card-content>
       <va-card-actions>
-        <va-button color="success" @click="checkin(1)">Sim</va-button>
-        <va-button color="danger" @click="checkin(0)">Não</va-button>
+        <va-button color="success" @click="checkin(true)">Sim</va-button>
+        <va-button color="danger" @click="checkin(false)">Não</va-button>
       </va-card-actions>
     </template>
   </va-modal>
@@ -22,6 +22,8 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  // import { createApi } from '@services/fam/fam'
+  import { createApi } from '../../../../services/fam/fam'
 
   export interface Props {
     params: any
@@ -33,9 +35,19 @@
 
   const showModal = ref(false)
   const message = 'Esse animal está hoje na fazenda?'
+  const AnimalApi = createApi('animal')
 
-  const checkin = (x: number) => {
-    console.log(`checkin(${x}), da vaca de id ${props.params.data.id}`)
+  const checkin = (checkIn: boolean) => {
+    AnimalApi.makeCheckIn(props.params.data.id, checkIn)
+      .then((response) => {
+        console.log('Make check in')
+        showModal.value = false
+      })
+      .catch((error) => {
+        console.log('Make chec in failed')
+        console.log(error)
+      })
+    console.log(`checkin(${checkIn}), da vaca de id ${props.params.data.id}`)
   }
 </script>
 
