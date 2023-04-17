@@ -1,6 +1,9 @@
 <template>
   <div class="checkin-cell-div">
-    <va-button class="mr-2" color="success" size="small" @click="showModal = !showModal">Check-in</va-button>
+    <va-button v-if="displayCheckInButton()" class="mr-2" color="success" size="small" @click="showModal = !showModal"
+      >Check-in</va-button
+    >
+    <p v-else>{{ params.data.check_in ? 'SIM' : 'NÃO' }}: {{ formatDateString(params.data.last_check_in) }}</p>
   </div>
   <va-modal v-model="showModal" :message="message">
     <template #content="{}">
@@ -36,6 +39,30 @@
   const showModal = ref(false)
   const message = 'Esse animal está hoje na fazenda?'
   const AnimalApi = createApi('animal')
+
+  function displayCheckInButton() {
+    // Check if last_check_in date is null or is later than a month old
+    // and display the button if it is
+    if (props.params.data.last_check_in == null) {
+      return true
+    }
+    const lastCheckIn = new Date(props.params.data.last_check_in)
+    const today = new Date()
+    const diffTime = Math.abs(today.getTime() - lastCheckIn.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    if (diffDays > 30) {
+      return true
+    }
+    return false
+  }
+
+  function formatDateString(date: string) {
+    const dateObj = new Date(date)
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth() + 1
+    const day = dateObj.getDate()
+    return `${day}/${month}/${year}`
+  }
 
   const checkin = (checkIn: boolean) => {
     AnimalApi.makeCheckIn(props.params.data.id, checkIn)
