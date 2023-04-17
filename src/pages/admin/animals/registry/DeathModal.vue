@@ -7,7 +7,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   <div>
     <va-button
       color="danger"
-      icon="skull"
+      icon="church"
       :size="props.buttonSize || 'small'"
       class="mt-3"
       @click="showContent = !showContent"
