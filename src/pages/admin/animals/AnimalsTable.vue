@@ -133,6 +133,11 @@
 
   const columns = ref([
     {
+      field: 'id',
+      headerName: 'id',
+      hide: true,
+    },
+    {
       field: 'nome',
       sort: true,
       sortingOrder: ['asc', 'desc'],

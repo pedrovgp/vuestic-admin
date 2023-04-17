@@ -69,9 +69,18 @@
       .then((response) => {
         console.log('Make check in')
         showModal.value = false
+        // update ag grid's row data with the response data
+        props.params.node.setData(response.data)
+        // if (checkIn) {
+        //   // Update the row data
+        //   props.params.node.setData(response.data)
+        // } else {
+        //   // Delete the row from the grid (COULD NOT GET THIS TO WORK)
+        //   props.params.api.applyTransactionAsync({ remove: [{ id: response.data.id }] })
+        // }
       })
       .catch((error) => {
-        console.log('Make chec in failed')
+        console.log('Make check in failed')
         console.log(error)
       })
     console.log(`checkin(${checkIn}), da vaca de id ${props.params.data.id}`)
