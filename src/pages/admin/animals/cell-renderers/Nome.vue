@@ -1,23 +1,25 @@
 <template>
-  <va-chip v-if="hierarchy == 'id'" class="nome-va-chip" square :to="'animals/' + params.data.id" size="medium">{{
-    params.data.nome
-  }}</va-chip>
-  <va-chip
-    v-if="hierarchy == 'idmae' && params.data.idmae != null"
-    class="mae-va-chip"
-    square
-    :to="'animals/' + params.data.idmae.id"
-    size="medium"
-    >{{ params.data.idmae.nome }} - Br. {{ params.data.idmae.brinco }}</va-chip
-  >
-  <va-chip
-    v-if="hierarchy == 'idpai' && params.data.idpai != null"
-    class="pai-va-chip"
-    square
-    :to="'animals/' + params.data.idpai.id"
-    size="medium"
-    >{{ params.data.idpai.nome }} - Br. {{ params.data.idpai.brinco }}</va-chip
-  >
+  <div class="nome-cell-div">
+    <va-chip v-if="hierarchy == 'id'" class="nome-va-chip" square :to="'animals/' + params.data.id" size="medium">{{
+      params.data.nome
+    }}</va-chip>
+    <va-chip
+      v-if="hierarchy == 'idmae' && params.data.idmae != null"
+      class="mae-va-chip"
+      square
+      :to="'animals/' + params.data.idmae.id"
+      size="medium"
+      >{{ params.data.idmae.nome }} - Br. {{ params.data.idmae.brinco }}</va-chip
+    >
+    <va-chip
+      v-if="hierarchy == 'idpai' && params.data.idpai != null"
+      class="pai-va-chip"
+      square
+      :to="'animals/' + params.data.idpai.id"
+      size="medium"
+      >{{ params.data.idpai.nome }} - Br. {{ params.data.idpai.brinco }}</va-chip
+    >
+  </div>
 </template>
 
 <script lang="ts">

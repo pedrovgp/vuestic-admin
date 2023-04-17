@@ -48,6 +48,7 @@
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
+  import Vivo from './cell-renderers/Vivo.vue'
 
   const AnimalApi = createApi('animal')
 
@@ -177,6 +178,7 @@
     { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
     { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária', initialWidth: 190 },
     { field: 'autoname', sortingOrder: ['asc', 'desc'], headerName: 'Nome auto' },
+    { field: 'vivo', sortingOrder: ['asc', 'desc'], headerName: 'Vivo?', cellRenderer: Vivo },
     { field: 'birthorder', sortingOrder: ['asc', 'desc'], headerName: 'Ordem de nasc.' },
     { field: 'lact_is_open', sortingOrder: ['asc', 'desc'], headerName: 'Lact. aberta', cellRenderer: LactOpen },
     //fieldkey: 'lact_condition', sortingOrder: ['asc', 'desc'], headerName: 'condição' },
