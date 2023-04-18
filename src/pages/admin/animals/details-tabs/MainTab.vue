@@ -61,6 +61,9 @@
           :update-entity-id="animal.id.toString()"
           label="Observação"
           success-message="Observação atualizada com sucesso"
+          type="textarea"
+          autosize
+          :min-rows="5"
         />
       </div>
     </div>
