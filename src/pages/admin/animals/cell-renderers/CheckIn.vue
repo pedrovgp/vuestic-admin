@@ -27,10 +27,13 @@
   import { ref } from 'vue'
   // import { createApi } from '@services/fam/fam'
   import { createApi } from '../../../../services/fam/fam'
+  import { useToast } from 'vuestic-ui'
 
   export interface Props {
     params: any
   }
+
+  const { init } = useToast()
 
   const props = withDefaults(defineProps<Props>(), {
     params: () => 'Erro ao carregar parâmetros',
@@ -80,7 +83,7 @@
         // }
       })
       .catch((error) => {
-        console.log('Make check in failed')
+        init({ message: `Check In failed: ${error}`, color: 'danger' })
         console.log(error)
       })
     console.log(`checkin(${checkIn}), da vaca de id ${props.params.data.id}`)
