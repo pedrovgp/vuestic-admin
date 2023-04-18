@@ -10,6 +10,14 @@
       <p v-else>Carregando...</p>
     </span>
   </va-alert>
+  <span
+    ><row>
+      <va-chip square :color="animalColors.FEMEAVIVA" size="small">Fêmea viva</va-chip>
+      <va-chip square :color="animalColors.MACHOVIVO" size="small">Macho vivo</va-chip>
+      <va-chip square :color="animalColors.FEMEAMORTA" size="small">Fêmea morta</va-chip>
+      <va-chip square :color="animalColors.MACHOMORTO" size="small">Macho morto</va-chip>
+    </row></span
+  >
   <row>
     <va-input
       v-model="quickFilterText"
@@ -32,6 +40,13 @@
 </template>
 
 <script lang="ts">
+  const animalColors = {
+    FEMEAVIVA: '#FFC0CB',
+    MACHOVIVO: '#87CEFA',
+    FEMEAMORTA: '#D3D3D3',
+    MACHOMORTO: '#A9A9A9',
+  }
+  export { animalColors }
   export default {
     name: 'AnimalsTable',
   }
@@ -44,7 +59,7 @@
   import debounce from 'lodash.debounce'
   import Nome from './cell-renderers/Nome.vue'
   import LactOpen from './cell-renderers/LactOpen.vue'
-  import Vivo from './cell-renderers/Vivo.vue'
+  // import Vivo from './cell-renderers/Vivo.vue'
   import CheckIn from './cell-renderers/CheckIn.vue'
 
   const AnimalApi = createApi('animal')
@@ -161,7 +176,6 @@
       ...defaultColumnFilter,
     },
     { field: 'checkin', sortingOrder: ['asc', 'desc'], headerName: 'Na fazenda?', cellRenderer: CheckIn },
-    { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo', ...defaultColumnFilter },
     {
       field: 'idmae',
       headerName: 'Mãe',
@@ -192,7 +206,6 @@
     { field: 'idade', headerName: 'Idade (meses)', sortingOrder: ['asc', 'desc'] },
     { field: 'obs', sortingOrder: ['asc', 'desc'], headerName: 'Observação temporária', initialWidth: 190 },
     { field: 'autoname', sortingOrder: ['asc', 'desc'], headerName: 'Nome auto' },
-    { field: 'vivo', sortingOrder: ['asc', 'desc'], headerName: 'Vivo?', cellRenderer: Vivo },
     { field: 'birthorder', sortingOrder: ['asc', 'desc'], headerName: 'Ordem de nasc.' },
     { field: 'lact_is_open', sortingOrder: ['asc', 'desc'], headerName: 'Lact. aberta', cellRenderer: LactOpen },
     //fieldkey: 'lact_condition', sortingOrder: ['asc', 'desc'], headerName: 'condição' },
@@ -201,6 +214,8 @@
     { field: 'last_birth_date', sortingOrder: ['asc', 'desc'], headerName: 'Último parto' },
     { field: 'iep', sortingOrder: ['asc', 'desc'], headerName: 'IEP' },
     { field: 'origem', sortingOrder: ['asc', 'desc'], headerName: 'Origem' },
+    // { field: 'sexo', sortingOrder: ['asc', 'desc'], headerName: 'Sexo', ...defaultColumnFilter },
+    // { field: 'vivo', sortingOrder: ['asc', 'desc'], headerName: 'Vivo?', cellRenderer: Vivo },
   ])
 
   // TODO add a custom filtering function to filter only by nome and brinco
