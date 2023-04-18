@@ -1,6 +1,32 @@
 ]
 <template>
   <!-- <animal-dropdown v-if="animal != null" :key="animal" :animal="animal" /> -->
+  <div id="animal-details-buttons">
+    <birth-modal
+      v-if="animal?.sexo == 'FEMEA'"
+      :key="animal"
+      :animal-id="props.animalId"
+      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+      button-text="Registrar cria"
+      button-size="small"
+    />
+    <death-modal
+      :key="animal"
+      :animal-id="props.animalId"
+      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+      :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
+      button-size="small"
+      @death-changed="fetchAnimal()"
+    />
+    <sale-modal
+      :key="animal"
+      :animal-id="props.animalId"
+      :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+      :button-text="getSaleButtonText()"
+      button-size="small"
+      @sale-changed="fetchAnimal()"
+    />
+  </div>
   <va-card>
     <va-card-title>
       {{ t('animals.animalDetailsTitle') }}
@@ -21,30 +47,6 @@
       <component :is="tabs[activeTabName]" v-if="animalLoaded()" :key="animal" :animal="animal" @submit="submit" />
     </va-card-content>
   </va-card>
-  <birth-modal
-    v-if="animal?.sexo == 'FEMEA'"
-    :key="animal"
-    :animal-id="props.animalId"
-    :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
-    button-text="Registrar cria"
-    button-size="small"
-  />
-  <death-modal
-    :key="animal"
-    :animal-id="props.animalId"
-    :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
-    :button-text="animal?.vivo ? 'Registrar morte' : 'Editar morte'"
-    button-size="small"
-    @death-changed="fetchAnimal()"
-  />
-  <sale-modal
-    :key="animal"
-    :animal-id="props.animalId"
-    :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
-    :button-text="getSaleButtonText()"
-    button-size="small"
-    @sale-changed="fetchAnimal()"
-  />
 </template>
 
 <script lang="ts">
@@ -114,5 +116,9 @@
 <style lang="scss">
   .va-tabs__tabs {
     height: 100%;
+  }
+  #animal-details-buttons {
+    display: flex;
+    justify-content: space-between;
   }
 </style>

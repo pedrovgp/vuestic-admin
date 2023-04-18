@@ -9,7 +9,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
       color="success"
       icon="paid"
       :size="props.buttonSize || 'small'"
-      class="mt-3"
+      class="mr-6 mb-2"
       @click="showContent = !showContent"
     >
       {{ props.buttonText || 'Venda' }}
