@@ -37,6 +37,14 @@
     button-size="small"
     @death-changed="fetchAnimal()"
   />
+  <sale-modal
+    :key="animal"
+    :animal-id="props.animalId"
+    :animal-text="`${animal?.nome} - Br. ${animal?.brinco}`"
+    :button-text="getSaleButtonText()"
+    button-size="small"
+    @sale-changed="fetchAnimal()"
+  />
 </template>
 
 <script lang="ts">
@@ -51,6 +59,7 @@
   import createApi from '../../../services/fam/fam'
   // import AnimalDropdown from './registry/AnimalDropdown.vue'
   import DeathModal from './registry/DeathModal.vue'
+  import SaleModal from './registry/SaleModal.vue'
   import BirthModal from './registry/BirthModal.vue'
   import MainTab from './details-tabs/MainTab.vue'
 
@@ -75,6 +84,14 @@
   onMounted(async () => {
     fetchAnimal()
   })
+
+  function getSaleButtonText() {
+    if (animal.value?.animal_vendido.length > 0) {
+      return 'Editar venda'
+    } else {
+      return 'Registrar venda'
+    }
+  }
 
   const tabs = {
     MainTab: MainTab,
