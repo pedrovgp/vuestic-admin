@@ -65,6 +65,14 @@
           autosize
           :min-rows="5"
         />
+        <file-input
+          :initial-value="[animal.one_picture]"
+          :update-api="AnimalApi"
+          update-field-name="one_picture"
+          :update-entity-id="animal.id.toString()"
+          label="Foto"
+          success-message="Foto atualizada com sucesso"
+        />
       </div>
     </div>
   </div>
@@ -81,7 +89,8 @@
   import { useColors } from 'vuestic-ui'
   import AnimalSelect from '../form-fields/AnimalSelect.vue'
   import ModelTextInput from '../form-fields/ModelTextInput.vue'
-  import createApi from '../../../../services/fam/fam'
+  import FileInput from '../form-fields/FileInput.vue'
+  import { createApi } from '../../../../services/fam/fam'
 
   const AnimalApi = createApi('animal')
 

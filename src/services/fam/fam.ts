@@ -32,6 +32,24 @@ function createApi(modelName: string) {
       return http.patch<any>(`/${modelName}/${id}/check_in/`, { check_in: checkIn })
     },
 
+    updateFile({ id, data }: { id: string; data: Map<string, string | Blob> }) {
+      const fd = new FormData()
+      fd.append('_method', 'PATCH')
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(data).forEach(([key, value], index) => {
+        // name one_picture {PictureBlob} 0
+        // fieldName File 1
+        fd.append(key, value)
+      })
+      // fd.append('one_picture', data.one_picture)
+
+      return http.patch<any>(`/${modelName}/${id}/`, fd, {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+      })
+    },
+
     //   deleteAll() {
     //     return http.delete<any>(`/tutorials`)
     //   }
