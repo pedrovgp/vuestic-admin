@@ -26,6 +26,13 @@ export default {
       },
     },
     {
+      name: 'lactating',
+      displayName: 'Lactação', // 'menu.lactating', TODO in the future figure out where this points to
+      meta: {
+        icon: 'vuestic-iconset-graph',
+      },
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

@@ -33,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
       },
       {
+        name: 'lactating',
+        path: 'lactating',
+        component: () => import('../pages/admin/cows-in-lact/LactatingTable.vue'),
+      },
+      {
         name: 'links',
         path: 'links',
         component: () => import('../pages/Links.vue'),
