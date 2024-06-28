@@ -19,6 +19,7 @@
   import { AgGridVue } from 'ag-grid-vue3' // the AG Grid Vue Component
   import { ref, onMounted } from 'vue'
   import createApi from '../../../services/fam/fam'
+  import ChangeOrCreateLactation from './cell-renderers/ChangeOrCreateLactation.vue'
 
   const cows = ref([])
   const AnimalApi = createApi('animal')
@@ -78,6 +79,7 @@
       pinned: 'left',
       suppressSizeToFit: true,
       suppressMovable: true,
+      ...defaultColumnFilter,
     },
     {
       field: 'brinco',
@@ -89,18 +91,12 @@
       pinned: 'left',
       suppressSizeToFit: true,
       suppressMovable: true,
+      ...defaultColumnFilter,
     },
     {
       field: 'action',
       headerName: 'Ação',
-      cellRenderer: (params) => {
-        const cow = params.data
-        if (cow.lactationOpen) {
-          return '<va-button color="danger" @click="closeLactation(cow.id)">Close</va-button>'
-        } else {
-          return '<va-button color="success" @click="openLactation(cow.id)">Open</va-button>'
-        }
-      },
+      cellRenderer: ChangeOrCreateLactation,
     },
     { field: 'status', headerName: 'Status' },
     { field: 'lastBirthDate', headerName: 'Último Parto' },
