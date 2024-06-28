@@ -27,19 +27,21 @@
   const mockApiResponse = [
     {
       id: 1,
-      name: 'Bessie',
+      nome: 'Bessie',
       brinco: '1234',
       status: 'Lactating',
       lastBirthDate: '2023-01-15',
-      lactationOpenDate: '2023-01-16',
+      datainicio: '2023-01-16',
+      datafim: '2023-05-16',
       lactationOpen: true,
     },
     {
       id: 2,
-      name: 'Daisy',
+      nome: 'Daisy',
       brinco: '1254b',
       status: 'Recent Birth',
       lastBirthDate: '2023-03-20',
+      datafim: null,
       lactationOpen: false,
     },
   ]
@@ -72,7 +74,7 @@
   const columnDefs = ref([
     { field: 'id', headerName: 'id', hide: true },
     {
-      field: 'name',
+      field: 'nome',
       headerName: 'Nome',
       sort: true,
       sortingOrder: ['asc', 'desc'],
@@ -100,7 +102,8 @@
     },
     { field: 'status', headerName: 'Status' },
     { field: 'lastBirthDate', headerName: 'Último Parto' },
-    { field: 'lactationOpenDate', headerName: 'Abertura da Lactação' },
+    { field: 'datainicio', headerName: 'Abertura da Lactação' },
+    { field: 'datafim', headerName: 'Fechamento da Lactação' },
   ])
 
   async function fetchCows() {
