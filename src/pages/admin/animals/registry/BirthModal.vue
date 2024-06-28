@@ -93,7 +93,14 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
   const formValid = ref(false)
   const showContent = ref(false)
 
-  const successToastMsg = 'Novo animal registrado com sucesso!'
+  const successToastMsg = 'Novo animal registrado com sucesso! (Sem link :( )'
+
+  function getSuccessToastMsg(response: any) {
+    // TODO, try to use router push to resolve the animal link (I gave up on this one, sorry)
+    return response.data.id
+      ? `Novo animal registrado com sucesso! <a href="/f/animals/${response.data.id}">Ver novo animal</a>`
+      : successToastMsg
+  }
 
   const sexoOptions = ['FEMEA', 'MACHO']
 
@@ -160,7 +167,7 @@ If it does not, it pre fills some fields (like animalId, date with todays date) 
     AnimalApi.create(birth)
       .then((response: any) => {
         console.log(response)
-        init({ message: successToastMsg, color: 'success' })
+        init({ message: getSuccessToastMsg(response), color: 'success', dangerouslyUseHtmlString: true })
         showContent.value = false
         emit('birthCreated')
       })
